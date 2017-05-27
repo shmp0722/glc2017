@@ -15,7 +15,7 @@ T= readtable('10-2-8.xlsx');
 % [status,sheets] = xlsfinfo('CSFI 10-2.xlsx');
 % 
 % T= readtable('CSFI 10-2.xlsx','Sheet',2);
-%%
+%% age and RGC_HFA
 figure; hold on;
 plot(T.age,T.RGC_HFA./9,'o')
 xlabel age
@@ -51,21 +51,19 @@ splitapply(@std,T2.MD10_2,G)
 % gender
 [G2, sex] = findgroups(T2.Gender);
 
-
 p = anova1(T2.Gender,G)
 p = anova1(T2.MD10_2,G)
 p = anova1(T2.age,G)
 
 [g, ID] = findgroups(T2.ID);
 
-
 %% adjust 
 T2.RGC_HFA_adj = T2.RGC_HFA./9;
 T2.RGC_HFA_adj2 = T2.RGC_HFA./64.*12;
 
-T2.wRGC_adj = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj;
+T2.wRGC_adj  = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj;
 T2.wRGC_adj2 = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj2;
-
+T2.invLamda  = 10.^(T2.MD10_2/10);
 % %% BlandAltman between RGC_HFA_adj,T2.RGC_HFA_adj2  
 % figure;hold on;
 % plot(T2.RGC_HFA_adj,T2.RGC_HFA_adj2,'o')
@@ -106,6 +104,43 @@ xlabel('MD value','fontsize',14)
 ylabel('estimated num of RGC','fontsize',14)
 legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14)
 
+%% inv Lamda 
+figure; hold on;
+plot(T2.invLamda,T2.RGC_OCT,'ob')
+plot(T2.invLamda,T2.RGC_HFA_adj,'or')
+% plot(T2.MD10_2,T2.RGC_HFA_adj2,'o')
+
+plot(T2.invLamda,T2.wRGC_adj,'og')
+xlabel('1/L','fontsize',14)
+ylabel('estimated num of RGC','fontsize',14)
+legend({'OCT','HFA','weighted'},'fontsize',14)
+
+% lowess X= MD
+figure; hold on;
+span = 0.5;
+[xx, inds] = sort(T2.invLamda);
+yy1 = smooth(T2.invLamda, T2.RGC_HFA_adj, span,'rloess');
+plot(xx,yy1(inds),'r.');
+% clear xx inds
+
+% [xx, inds] = sort(T2.RGC_OCT);
+yy2 = smooth(T2.invLamda,T2.RGC_OCT,span,'rloess');
+plot(xx,yy2(inds),'b.')
+% clear xx inds
+
+% [xx, inds] = sort(T2.wRGC_adjusted);
+yy3 = smooth(T2.invLamda,T2.wRGC_adj,span,'rloess');
+plot(xx,yy3(inds),'g.')
+clear xx inds
+
+xlabel('1/L','fontsize',14)
+ylabel('estimated num of RGC','fontsize',14)
+legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14)
+
+[h,atab,ctab,stats] = aoctool(T2.RGC_OCT, T2.MD10_2,T2.Disease_type);
+
+polytool(T2.RGC_OCT, T2.MD10_2,1)
+polytool(T2.invLamda, T2.MD10_2,1)
 
 %% Bland Altman
 
