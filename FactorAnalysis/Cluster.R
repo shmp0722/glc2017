@@ -49,7 +49,7 @@ x <- read_excel("~/Google Drive/CSFI/glc2017/30-10-6forMatlab.xlsx", sheet = "Cl
 cor01 = cor(x); cor01
 
 (x.eigen = eigen(cor01)$value); x.eigen
-plot(x.eigen,type = 'b',xlab = 'eigen value',ylab = 'Component Num',main = 'Scree Plot 24-2');abline(h=1,col='red')
+plot(x.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot combined 24-2 & 10-2');abline(h=1,col='red')
 
 optimnum=fa.parallel(x,fa = 'both')
 
@@ -66,4 +66,37 @@ summary(F)
 sd(F$`age(30)`)
 sd(F$`MD24-2`)
 sd(F$`VFI(30)`,na.rm = T)
+
+## 10-2
+x <- read_excel("~/Google Drive/CSFI/glc2017/30-10-6forMatlab.xlsx", sheet = "10-2")
+
+cor01 = cor(x); cor01
+
+(x.eigen = eigen(cor01)$value); x.eigen
+plot(x.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2');abline(h=1,col='red')
+
+optimnum=fa.parallel(x,fa = 'both')
+
+result <- factanal(x=x, factors = optimnum$nfact, rotation = 'promax')
+print(result)
+
+pm = fa(x,nfactors = optimnum$nfact,rotate = "Promax",	fm="ml")
+print(pm)
+
+
+## Cluster 30-2, 10-2
+x <- read_excel("~/Google Drive/CSFI/glc2017/30-10-6forMatlab.xlsx", sheet = "Cluster 30-10")
+
+cor01 = cor(x); cor01
+
+(x.eigen = eigen(cor01)$value); x.eigen
+plot(x.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2');abline(h=1,col='red')
+
+optimnum=fa.parallel(x,fa = 'both')
+
+result <- factanal(x=x, factors = optimnum$nfact, rotation = 'promax')
+print(result)
+
+pm = fa(x,nfactors = optimnum$nfact,rotate = "Promax",	fm="ml")
+print(pm)
 
