@@ -100,3 +100,22 @@ print(result)
 pm = fa(x,nfactors = optimnum$nfact,rotate = "Promax",	fm="ml")
 print(pm)
 
+## Clusrter clock hour
+library(readxl)
+x <- read_excel("~/Google Drive/CSFI/glc2017/OCT-ONH5-27.xlsx", 
+                          sheet = "forR2")
+#View(x)
+
+cor01 = cor(x); cor01
+
+(x.eigen = eigen(cor01)$value); x.eigen
+plot(x.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',
+     main = 'Scree Clock hour');abline(h=1,col='red')
+
+optimnum=fa.parallel(x,fa = 'both')
+
+result <- factanal(x=x, factors = optimnum$nfact, rotation = 'promax')
+print(result)
+
+pm = fa(x,nfactors = optimnum$nfact,rotate = "Promax",	fm="ml")
+print(pm)
