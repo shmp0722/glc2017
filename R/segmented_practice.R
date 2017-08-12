@@ -11,6 +11,7 @@ confint(o)
 
 library("segmented")
 data("down")
+View(down)
 fit.glm<-glm(cases/births~age, weight=
                  + births, family=binomial, data=down)
 

@@ -1,0 +1,185 @@
+---
+title: "CSFI10-2-data7"
+output: html_notebook;
+
+This is for Glc2017 HFA10-2 and RGC count using CSFI10-2-data7.
+
+SO@ACH 20170804
+---
+
+#### main 
+  ?????????tool???????????????
+```{r}
+# add path
+library(psych)
+library(readxl)
+
+```
+
+
+```{r}
+# load data
+library(readxl)
+dt10 <- read_excel("~/Google Drive/CSFI/glc2017/CSFI10-2data-7ForAnalysis.xlsx", sheet = "10-2")
+tp = read_excel("~/Google Drive/CSFI/glc2017/CSFI10-2data-7ForAnalysis.xlsx", sheet = "testpoint")
+```
+
+
+???????????????????????????????????????????????????????????????????????????
+```{r}
+# 
+cor01 = cor(dt10); cor01
+
+## 10-2
+# eigen value
+(dt10.eigen = eigen(cor01)$value); dt10.eigen
+plot(dt10.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2');abline(h=1,col='red')
+
+```
+```{r}
+# number of factors
+PM =fa.parallel(dt10,fa = 'both');PM
+
+#nfactors(dt10,rotate = 'promax') 
+```
+
+```{r}
+
+pm10 = fa(dt10,nfactors = PM$nfact,rotate = "Promax",	fm="ml")
+print(pm10)
+```
+```{r}
+pm10$loadings
+
+
+```
+```{r}
+ML2=c(1:19, 25:27)
+ML1=c(35:37, 45:46, 53:55, 61:68)
+ML3=c(40:44,49:52)
+ML4=c(14,15,21:24,29:34) 
+ML5=c(38:39,47,48,56:60)
+ML6=c(20,28)
+```
+
+```{r}
+par(pty="s")
+
+plot(0, 0,type = 'n', col=2,xlim = c(-10 ,10), ylim = c(-10,10),xlab = 'visual angle', ylab = 'visual angle')
+
+points(tp$x[ML2], tp$y[ML2],type = 'p', pch  =15, col=2)
+points(tp$x[ML1], tp$y[ML1],type = 'p', pch  =15,col=1)
+points(tp$x[ML3], tp$y[ML3],type = 'p', pch  =15,col=3)
+points(tp$x[ML4], tp$y[ML4],type = 'p', pch  =15,col=4)
+points(tp$x[ML5], tp$y[ML5],type = 'p', pch  =15,col=5)
+points(tp$x[ML6], tp$y[ML6],type = 'p', pch  =15,col=6)
+
+
+
+```
+
+
+
+
+
+
+```{r}
+pm10 = fa(dt10,nfactors = PM$ncomp,rotate = "Promax",	fm="ml")
+print(pm10)
+```
+```{r}
+pm10$loadings
+
+```
+```{r}
+ML2=c(1:19,25:28)
+ML1=c(35:38,45:47,53:56,61:68)
+ML3=c(31:32,40:44,49:52)
+ML4=c(13:15,20:24,29,30,33,34)
+ML5=c(39,48,57:60)
+
+par(pty="s")
+
+plot(0, 0,type = 'n', col=2,xlim = c(-10 ,10), ylim = c(-10,10),xlab = 'visual angle', ylab = 'visual angle')
+
+points(tp$x[ML2], tp$y[ML2],type = 'p', pch  =15, col=2)
+points(tp$x[ML1], tp$y[ML1],type = 'p', pch  =15, col=1)
+points(tp$x[ML3], tp$y[ML3],type = 'p', pch  =15, col=3)
+points(tp$x[ML4], tp$y[ML4],type = 'p', pch  =15, col=4)
+points(tp$x[ML5], tp$y[ML5],type = 'p', pch  =15 ,col=5)
+
+
+```
+
+
+```{r}
+ch <- read_excel("~/Google Drive/CSFI/glc2017/CSFI10-2data-7ForAnalysis.xlsx", sheet = "clockHour")
+
+```
+
+```{r}
+# number of factors
+PM =fa.parallel(ch,fa = 'both');PM
+
+nfactors(ch,rotate = 'promax') 
+```
+
+```{r}
+
+pm = fa(ch, nfactors = PM$ncomp ,rotate = "Promax",	fm="ml")
+print(pm)
+```
+```{r}
+pm$loadings
+
+```
+
+```{r}
+ML1 = c(1,5:7,11,12)
+ML2 = c(2:4)
+ML3 = c(8:10)
+
+```
+
+```{r}
+l1 = length(ML1)
+l2 = length(ML2)
+l3 = length(ML3)
+
+
+```
+
+
+# Pie chart
+```{r}
+require('grid')
+require('gridBase')    
+
+pie(c(1,3,3,3,2), 
+clockwise=TRUE,
+radius=1.0, 
+init.angle=180, 
+col=c(1,2,1,3,1
+      ),
+border=NA)
+
+```
+```{r}
+
+pm = fa(ch, nfactors = PM$nfact ,rotate = "Promax",	fm="ml")
+print(pm)
+pm$loadings
+```
+```{r}
+ML1 = c(8,9)
+ML2 = c(10,11)
+ML3 = c(5:7)
+ML4 = c(2:4)
+ML5 = c(1,12)
+
+pie(c(2,2,3,3,2), 
+clockwise=TRUE,
+radius=1.0, 
+init.angle=180, 
+col=c(1,2,3,4,5),border=NA)
+```

@@ -20,7 +20,7 @@ figure; hold on;
 plot(T.age,T.RGC_HFA./9,'o')
 xlabel age
 ylabel RGC_HFA
-mdl = fitlm(T.age,T.RGC_HFA./9)
+mdl = fitlm(T.age,T.RGC_HFA./9);
 lsline
 %% remove subjects HFA reliability is not enough
 % remove low fixation HFA
@@ -57,12 +57,12 @@ p = anova1(T2.age,G)
 
 [g, ID] = findgroups(T2.ID);
 
-%% adjust 
+%% adjust by area
 T2.RGC_HFA_adj = T2.RGC_HFA./9;
-T2.RGC_HFA_adj2 = T2.RGC_HFA./64.*12;
+% T2.RGC_HFA_adj2 = T2.RGC_HFA./64.*12;
 
 T2.wRGC_adj  = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj;
-T2.wRGC_adj2 = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj2;
+% T2.wRGC_adj2 = (1+T2.MD10_2/30).*T2.RGC_OCT+(-T2.MD10_2/30).*T2.RGC_HFA_adj2;
 T2.invLamda  = 10.^(T2.MD10_2/10);
 % %% BlandAltman between RGC_HFA_adj,T2.RGC_HFA_adj2  
 % figure;hold on;
@@ -80,7 +80,7 @@ plot(T2.MD10_2,T2.RGC_HFA_adj,'or')
 plot(T2.MD10_2,T2.wRGC_adj,'og')
 xlabel('MD value','fontsize',14)
 ylabel('estimated num of RGC','fontsize',14)
-legend({'OCT','HFA','weighted'},'fontsize',14)
+legend({'OCT','HFA','weighted'},'fontsize',14,'Location','northwest')
 
 % lowess X= MD
 figure; hold on;
@@ -102,7 +102,7 @@ clear xx inds
 
 xlabel('MD value','fontsize',14)
 ylabel('estimated num of RGC','fontsize',14)
-legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14)
+legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14,'Location','northwest')
 
 %% inv Lamda 
 figure; hold on;
@@ -113,7 +113,7 @@ plot(T2.invLamda,T2.RGC_HFA_adj,'or')
 plot(T2.invLamda,T2.wRGC_adj,'og')
 xlabel('1/L','fontsize',14)
 ylabel('estimated num of RGC','fontsize',14)
-legend({'OCT','HFA','weighted'},'fontsize',14)
+legend({'OCT','HFA','weighted'},'fontsize',14,'Location','northwest')
 
 % lowess X= MD
 figure; hold on;
@@ -135,7 +135,7 @@ clear xx inds
 
 xlabel('1/L','fontsize',14)
 ylabel('estimated num of RGC','fontsize',14)
-legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14)
+legend({'RGC HFA','RGC OCT','wRGC'},'fontsize',14,'Location','northwest')
 
 [h,atab,ctab,stats] = aoctool(T2.RGC_OCT, T2.MD10_2,T2.Disease_type);
 

@@ -1,6 +1,7 @@
 function BrokenStick_Example
 
 % Example 1
+addpath(genpath('Aquiles'));
 
 nstick = 4;
 nn = 800;
