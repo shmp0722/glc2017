@@ -1,4 +1,4 @@
-function [RGC_count] = RGC_HFA10_count(dB , ecc, N_testpoint)
+function [RGC_count] = RGC_HFA10_count(dB ,  N_testpoint)
 % 
 % This function returns number of RGCs on the test point of HFA10-2.  
 %
@@ -12,7 +12,7 @@ function [RGC_count] = RGC_HFA10_count(dB , ecc, N_testpoint)
 % SO@ACH 2017.08.13
 
 %% 
-if notDefined('ecc') && exist(N_testpoint,'var')
+% if is(N_testpoint)
 
     tp =[-1,1,-5,-3,-1,1,3,5,-7,-5,-3,-1,1,3,5,7,-7,-5,-3,-1,1,3,5,7,-9,-7,-5,-3,-1,1,3,5,7,9,-9,-7,-5,-3,-1,1,3,5,7,9,-7,-5,-3,-1,1,3,5,7,-7,-5,-3,-1,1,3,5,7,-5,-3,-1,1,3,5,-1,1;...
         9,9,7,7,7,7,7,7,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-3,-3,-3,-3,-3,-3,-3,-3,-5,-5,-5,-5,-5,-5,-5,-5,-7,-7,-7,-7,-7,-7,-9,-9];
@@ -21,6 +21,7 @@ if notDefined('ecc') && exist(N_testpoint,'var')
         Ecc_tp(i) =sqrt(tp(1,i)^2+tp(2,i)^2);
     end
     ecc = Ecc_tp(N_testpoint);
-end
+% end
 
+%%
 RGC_count = 10^(0.1*(dB-1-(-1.5*1.34*ecc-14.8))/(0.054*1.34*ecc+0.9))*2.95/9;
