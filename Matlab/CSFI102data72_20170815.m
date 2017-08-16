@@ -2,12 +2,12 @@ function CSFI102data72_20170815
 
 %%
 
-filename '/CSFI10-2data7-2forAnalysis.xlsx';
+filename = 'CSFI10-2data7-2forAnalysis2.csv';
 
+% [status,sheets] = xlsfinfo(filename);
 
-[status,sheets] = xlsfinfo(filename);
-
-T = readtable('/CSFI10-2data7-2forAnalysis.xlsx', 'Sheet', 4);
+% T = readtable('/CSFI10-2data7-2forAnalysis.xlsx', 'Sheet', 4);
+T = readtable(filename);,
 
 %% summary
 summary(T)
@@ -86,6 +86,15 @@ end
 writetable(T,'CSFI10-2data7-2forAnalysis2.csv')
 
 %%
-for  jj = 1:length(fn)
-    T.P1
+
+C = nchoosek(1:length(fn),2);
+
+for  jj = 1:length(C)
+    try
+        [R(jj),P(jj)] = corr( T.(fn{C(1,jj)}) ,T.(fn{C(2,jj)}));
+    catch
+        R(jj) = 0;
+        P(jj) = 1;
+    end
+end
 
