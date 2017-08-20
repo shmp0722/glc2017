@@ -1,0 +1,32 @@
+---
+title: "10-2-7-2.Rmd"
+output: html_notebook
+---
+
+
+```{r}
+library(readr)
+# add path
+library(psych)
+library(readxl)
+
+# load data
+dt10 <- read_excel("~/Google Drive/CSFI/glc2017/Matlab/CSFI10-2data7-2forAnalysis2.csv", sheet = "HFA10-2")
+tp = read_excel("~/Google Drive/CSFI/glc2017/CSFI10-2data-7ForAnalysis.xlsx", sheet = "testpoint")
+
+
+dt <- read_csv("~/Google Drive/CSFI/glc2017/Matlab/CSFI10-2data7-2forAnalysis2.csv")
+
+dt2 = read.table("~/Google Drive/CSFI/glc2017/Matlab/CSFI10-2data7-2forAnalysis2.csv")
+
+# calc cor 
+summary(dt)
+```
+```{r}
+
+for(i in 1:5)
+print(i)
+```
+
+
+
