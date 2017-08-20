@@ -2,13 +2,17 @@ function CSFI102data72_20170815
 
 %%
 
-filename = 'CSFI10-2data7-2forAnalysis2.csv';
+% filename = 'CSFI10-2data7-2forAnalysis2.csv';
 
 % [status,sheets] = xlsfinfo(filename);
 
 % T = readtable('/CSFI10-2data7-2forAnalysis.xlsx', 'Sheet', 4);
-T = readtable(filename);
+% T = readtable(filename);
+T = readtable('CSFI10-2data7-2-1.xlsx');
 
+S = xlsread('CSFI10-2data7-2-1.xlsx');
+
+xlswrite('CSFI10-2data7-2-2.csv',S);
 %% summary
 summary(T)
 %%
@@ -44,7 +48,7 @@ plot(T.sum_RGCHFA, T.RGC_HFA__9,'o')
 %they are identical
 %%
 for sub = 1:nsub
-    [RGC_count1(sub), RGC_count2(sub)] = RGC_HFA_OCT_count(T.cpRNFL(sub), 360, T.age(sub), T.MD10_2(sub));
+    [RGC_count1(sub)] = RGC_OCT_count(T.cpRNFL(sub), 360, T.age(sub), T.MD10_2(sub));
 end
 
 figure; hold on;
@@ -56,22 +60,22 @@ plot(T.RGC_OCT_)
 
 %%
 for sub = 1:nsub
-    [~, RGC_count(sub)] = RGC_HFA_OCT_count(T.QUADRANT_N(sub), 90, T.age(sub), T.MD10_2(sub));
+    [~, RGC_count(sub)] = RGC_OCT_count(T.QUADRANT_N(sub), 90, T.age(sub), T.MD10_2(sub));
 end
 T.RGC_QUADRANT_N = RGC_count';
 
 for sub = 1:nsub
-    [~, RGC_count(sub)] = RGC_HFA_OCT_count(T.QUADRANT_I(sub), 90, T.age(sub), T.MD10_2(sub));
+    [~, RGC_count(sub)] = RGC_OCT_count(T.QUADRANT_I(sub), 90, T.age(sub), T.MD10_2(sub));
 end
 T.RGC_QUADRANT_I = RGC_count';
 
 for sub = 1:nsub
-    [~, RGC_count(sub)] = RGC_HFA_OCT_count(T.QUADRANT_S(sub), 90, T.age(sub), T.MD10_2(sub));
+    [~, RGC_count(sub)] = RGC_OCT_count(T.QUADRANT_S(sub), 90, T.age(sub), T.MD10_2(sub));
 end
 T.RGC_QUADRANT_S = RGC_count';
 
 for sub = 1:nsub
-    [~, RGC_count(sub)] = RGC_HFA_OCT_count(T.QUADRANT_T(sub), 90, T.age(sub), T.MD10_2(sub));
+    [~, RGC_count(sub)] = RGC_OCT_count(T.QUADRANT_T(sub), 90, T.age(sub), T.MD10_2(sub));
 end
 T.RGC_QUADRANT_T = RGC_count';
 
@@ -79,7 +83,7 @@ T.RGC_QUADRANT_T = RGC_count';
 %% CLOCKHOUR
 for ii = 246:257
     for sub = 1:nsub
-        [~, RGC_count(sub)] = RGC_HFA_OCT_count(T.(fn{ii})(sub), 360/12, T.age(sub), T.MD10_2(sub));
+        [~, RGC_count(sub)] = RGC_OCT_count(T.(fn{ii})(sub), 360/12, T.age(sub), T.MD10_2(sub));
     end
     T.(['RGC_',fn{ii}]) = RGC_count';
 end
