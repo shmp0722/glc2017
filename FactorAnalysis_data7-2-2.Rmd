@@ -1,0 +1,39 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# add path
+library(psych)
+library(readxl)
+
+#load 
+dt10 <- read_excel("~/Google Drive/CSFI/glc2017/CSFI10-2data7-2-2.xlsx", sheet = "HFA_dB")
+
+
+## 10-2 eigen value
+cor01 = cor(dt10); cor01
+
+(dt10.eigen = eigen(cor01)$value); dt10.eigen
+plot(dt10.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2');abline(h= 0.8,col='red')
+```
+
+```{r}
+# number of factors
+PM =fa.parallel(dt10,fa = 'both');
+PM
+
+```
+```{r}
+# ncomponent
+pm10 = fa(dt10, nfactors = PM$ncomp, rotate = "Promax",	fm="ml")
+print(pm10)
+
+fa.diagram(pm10)
+
+```
+```{r}
+pm10$loadings
+```
+
