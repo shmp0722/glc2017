@@ -51,11 +51,11 @@ df.to_excel('CSFI10-2data_0823.xlsx')
 #df.to_csv('CSFI10-2data7-2-2.csv')
 
 toukei =  df.describe()
-toukei.to_csv('Describe.csv')
+#toukei.to_csv('Describe.csv')
 
 # corralation_matrix
 Corr = df.corr()
-Corr.to_csv('Corr_mat.csv')
+#Corr.to_csv('Corr_mat.csv')
 
 #del(df2,df3,df4)
 
@@ -79,23 +79,11 @@ def RGC_HFA10_count(dB, testpoint_n ):
 #RGC_displ_P1 = RGC_HFA10_count(df.P1, 0)
 
 for ii in range(0, 68):
-    df['RGC_disp'+'_P'+str(ii)] = RGC_HFA10_count(df['P'+str(ii+1)], ii)
+    df['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(df['P'+str(ii+1)], ii)
 
-cl =[]
-ID =[]
-for ii in range(0, 68):
-    cl += ['RGC_disp'+'_P'+str(ii)]
-
-for ii in range(0,630):
-    ID += str(ii)
+df.to_excel('df_20170826.xlsx')
 
 
-RGC_HFA10_disp =  df[cl]
-RGC_HFA10_disp =  RGC_HFA10_disp.sum()
-
-Sum = RGC_HFA10_disp.sum()
-Sum.rename(index =[str(range(0,630))])
-df['RGC_HFA10_disp']= RGC_HFA10_disp.sum()
 
 '''
 Figures
@@ -127,11 +115,27 @@ fig.set_dpi(300)
 #fig.savefig('RGC_HFA10-2vsRGC_OCT.png')
 fig.savefig('RGC_HFA10-2vsRGC_OCT2.png', dpi=300, orientation='portrait', \
             transparent=False, pad_inches=0.0)
+'''
+
+
+'''
+fig = plt.figure()
+plt.plot(df.RGC_HFA9,df.RGC_OCT,'.')
+plt.title('RGC_HFA10-2 vs RGC_OCT')
+plt.xlabel('RGC_HFA10-2')
+plt.ylabel('RGC_OCT')
+plt.axis('square')
+
+
+
+
+
 
 # compare HFA_OCT360 with OCT180
 fig = plt.figure()
 plt.plot(df.RGC_HFA9, df.RGC_OCT,'.b')
 plt.plot(df.RGC_HFA9, df.RGC_OCT2,'.r')
+plt.plot(df.RGC_HFA9, df.)
 plt.title('RGC_HFA10-2 vs RGC_OCT')
 plt.xlabel('RGC_HFA10-2')
 plt.ylabel('RGC_OCT')
