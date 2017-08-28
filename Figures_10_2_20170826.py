@@ -59,9 +59,9 @@ plt.axis('square')
 ##fig.savefig('RGC_HFA10-2vsRGC_OCT.png')
 #fig.savefig('RGC_HFA10-2vsRGC_OCT2.png', dpi=300, orientation='portrait', \
 #            transparent=False, pad_inches=0.0)
-'''
-
-'''
+#==============================================================================
+# 
+#==============================================================================
 
 fig = plt.figure()
 plt.plot(df.RGC_disp, df.RGC_HFA9,'.')
@@ -136,3 +136,10 @@ plt.xlabel('con')
 plt.ylabel('disp')
 plt.axis('square')
 #plt.legend(['360','180'])
+
+"""
+normal
+"""
+
+norm = pd.read_excel('norm_20170826.xlsx')
+
