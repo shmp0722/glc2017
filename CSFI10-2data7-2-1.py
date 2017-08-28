@@ -77,120 +77,40 @@ def RGC_HFA10_count(dB, testpoint_n ):
     return RGC_count
 
 #RGC_displ_P1 = RGC_HFA10_count(df.P1, 0)
-
 for ii in range(0, 68):
     df['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(df['P'+str(ii+1)], ii)
 
 df.to_excel('df_20170826.xlsx')
 
 
-
 '''
-Figures
-'''
-
-# plot RGC_HFA10-2 vs RGC_OCT
-fig = plt.figure()
-plt.plot(df.RGC_HFA9,df.RGC_OCT,'.')
-plt.title('RGC_HFA10-2 vs RGC_OCT')
-plt.xlabel('RGC_HFA10-2')
-plt.ylabel('RGC_OCT')
-plt.axis('square')
-
-fig.set_dpi(300)
-#fig.savefig('RGC_HFA10-2vsRGC_OCT.png')
-fig.savefig('RGC_HFA10-2vsRGC_OCT.png', dpi=300, orientation='portrait', \
-            transparent=False, pad_inches=0.0)
-#plt.savefig('RGC_HFA10-2vsRGC_OCT.pdf', orientation='portrait', transparent=False, bbox_inches=None, frameon=None)
-
-# plot RGC_HFA10-2 vs RGC_OCT2 180degree
-fig = plt.figure()
-plt.plot(df.RGC_HFA9, df.RGC_OCT2,'.r')
-plt.title('RGC_HFA10-2 vs RGC_OCT2')
-plt.xlabel('RGC_HFA10-2')
-plt.ylabel('RGC_OCT')
-plt.axis('square')
-
-fig.set_dpi(300)
-#fig.savefig('RGC_HFA10-2vsRGC_OCT.png')
-fig.savefig('RGC_HFA10-2vsRGC_OCT2.png', dpi=300, orientation='portrait', \
-            transparent=False, pad_inches=0.0)
+normal subjects
 '''
 
+DF = pd.read_excel('Normal_CSFI10-2data-2.xlsx')
 
-'''
-fig = plt.figure()
-plt.plot(df.RGC_HFA9,df.RGC_OCT,'.')
-plt.title('RGC_HFA10-2 vs RGC_OCT')
-plt.xlabel('RGC_HFA10-2')
-plt.ylabel('RGC_OCT')
-plt.axis('square')
+# calcurate quadrant RGC from cpRNFLT
+DF['RGC_QUADRANT_I'] = get_RGC_OCT_count(DF.QUADRANT_I, 90, DF.age, DF.MD10_2)
+DF['RGC_QUADRANT_N'] = get_RGC_OCT_count(DF.QUADRANT_N, 90, DF.age, DF.MD10_2)
+DF['RGC_QUADRANT_S'] = get_RGC_OCT_count(DF.QUADRANT_S, 90, DF.age, DF.MD10_2)
+DF['RGC_QUADRANT_T'] = get_RGC_OCT_count(DF.QUADRANT_T, 90, DF.age, DF.MD10_2)
 
+## Clock hour RGC_c
+for ii in range(0,12):
+    DF['RGC_CH'+str(ii+1)] = get_RGC_OCT_count(DF['CLOCKHOUR_'+str(ii+1)],\
+      360/12, DF.age, DF.MD10_2)
 
+# RGC_OCT2
+DF['RGC_OCT2'] = DF.RGC_OCT/2
 
+  
+#RGC_displ_P1 = RGC_HFA10_count(df.P1, 0)
+for ii in range(0, 68):
+    DF['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(DF['P'+str(ii+1)], ii)
 
-
-
-# compare HFA_OCT360 with OCT180
-fig = plt.figure()
-plt.plot(df.RGC_HFA9, df.RGC_OCT,'.b')
-plt.plot(df.RGC_HFA9, df.RGC_OCT2,'.r')
-plt.plot(df.RGC_HFA9, df.)
-plt.title('RGC_HFA10-2 vs RGC_OCT')
-plt.xlabel('RGC_HFA10-2')
-plt.ylabel('RGC_OCT')
-plt.axis('square')
-plt.legend(['360','180'])
-
-fig.set_dpi(300)
-#fig.savefig('RGC_HFA10-2vsRGC_OCT.png')
-fig.savefig('RGC_HFA10-2vsRGC_OCT3.png', dpi=300, orientation='portrait', \
-            transparent=False, pad_inches=0.0)
+DF.to_excel('norm_20170826.xlsx')
 
 
-# RGC_HFA9 vs HFA_displacement
-fig = plt.figure()
-ax1 = plt.plot(df.RGC_HFA9, Sum,'.b')
-plt.title('convensional vs displaced')
-plt.xlabel('con')
-plt.ylabel('disp')
-plt.axis('square')
-#plt.legend(['360','180'])
-
-
-
-
-
-
-'''
-# chekc HFA_RGC9 vs GCC
-
-'''
-
-field_names = df.columns # get columns
-
-np.corrcoef(df.RGC_HFA9,df.RGC_OCT)
-np.corrcoef(df.RGC_HFA9, df.GC_AVERAGE)
-np.corrcoef(df.RGC_HFA9, df.GC_MINIMUM)
-
-'''
-if HFA30 
-'''
-
-def RGC_HFA30_count(dB, testpoint_n):
-    x_tp = [-9,-3,3,9,-15,-9,-3,3,9,15,-21,-15,-9,-3,3,9,15,-27,-21,-15,-9,\
-            -3,3,9,15,21,27,-27,-21,-15,-9,-3,3,9,15,21,27,-27,-21,-15,-9,-3,\
-            3,9,15,21,27,-27,-21,-15,-9,-3,3	,9,15,21,27,-21,-15,-9	,-3,3,9,21,\
-            -15,-9,-3,3,9,15,-9,-3,3,9]
-    y_tp = [27,27	,27,27,21,21,21,21,21,21,15,15,15,15,15,15,15,9,9,9,9,9,9,9,\
-            9,9,9,3,3,3,3,3,3,3,3,3,3,-3,-3,-3,-3,-3,-3,-3,-3,-3,-3,-9,-9,-9,\
-            -9,-9,-9,-9,-9,-9,-9,-15,-15,-15,-15,-15,-15,-15,-15,-21,-21,-21,\
-            -21,-21,-21,-27,-27,-27,-27]
-    # Ecc; test point location in visual angle 
-    Ecc = np.sqrt(x_tp[testpoint_n]**2 + y_tp[testpoint_n]**2) 
-    
-    RGC_count = 10**(0.1*(dB-1-(-1.5*1.34*Ecc-14.8))/(0.054*1.34*Ecc+0.9))*2.95;
-    return RGC_count
 
 
 '''

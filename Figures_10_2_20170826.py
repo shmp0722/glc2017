@@ -15,9 +15,13 @@ import xlrd
 import matplotlib.pyplot as plt
 
 df = pd.read_excel('df_20170826.xlsx')
+norm = pd.read_excel('Normal_CSFI10-2data-2.xlsx')
+
 
 Corr = df.corr()
+cor_norm = norm.corr()
 
+toukei =  df.describe()
 
 
 '''
