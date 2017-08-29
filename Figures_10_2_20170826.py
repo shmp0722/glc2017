@@ -15,7 +15,7 @@ import xlrd
 import matplotlib.pyplot as plt
 
 df = pd.read_excel('df_20170826.xlsx')
-norm = pd.read_excel('Normal_CSFI10-2data-2.xlsx')
+norm = pd.read_excel('norm_20170826.xlsx')
 
 
 Corr = df.corr()
