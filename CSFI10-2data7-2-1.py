@@ -83,6 +83,15 @@ for ii in range(0, 68):
 df.to_excel('df_20170826.xlsx')
 
 
+df = pd.read_excel('/Users/shumpei/Google Drive/CSFI/glc2017/\
+df_20170826.xlsx')
+
+df['RGC_OCT135'] = df.RGC_OCT*135/360
+df.to_excel('df_20170901.xlsx')
+
+
+  
+
 '''
 normal subjects
 '''
@@ -109,8 +118,12 @@ for ii in range(0, 68):
     DF['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(DF['P'+str(ii+1)], ii)
 
 DF.to_excel('norm_20170826.xlsx')
+DF = pd.read_excel('norm_20170826.xlsx')
 
 
+DF['RGC_OCT135'] = DF.RGC_OCT*135/360
+
+DF.to_excel('norm_20170901.xlsx')
 
 
 '''

@@ -1,0 +1,103 @@
+---
+title: "FA_20170901"
+output: html_notebook
+---
+
+# load data and packages
+
+```{r}
+# add path
+library(psych)
+library(readxl)
+
+#load 
+conv <- read_excel("~/Google Drive/CSFI/glc2017/FA_data_20170901.xlsx", sheet = "10-2dB")
+
+
+## 10-2 eigen value
+cor01 = cor(conv); cor01
+
+(conv.eigen = eigen(cor01)$value); conv.eigen
+plot(conv.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2'); abline(h= 0.8,col='red')
+```
+```{r}
+# number of factors
+PM =fa.parallel(conv, fa = 'both'); PM
+
+```
+```{r}
+# ncomponent
+conv10 = fa(conv, nfactors = PM$ncomp, rotate = "Promax",	fm = "ml")
+print(conv10)
+
+fa.diagram(conv10)
+```
+```{r}
+
+conv10$loadings
+```
+
+### 
+Displaced RGC 
+###
+
+```{r}
+
+#load 
+disp <- read_excel("~/Google Drive/CSFI/glc2017/FA_data_20170901.xlsx", sheet = "RGC_disp")
+
+
+# 10-2 eigen value
+cor01 = cor(disp); cor01
+(disp.eigen = eigen(cor01)$value); conv.eigen
+
+# plot
+plot(conv.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2'); abline(h= 0.8,col='red')
+
+```
+
+```{r}
+# number of factors
+PM =fa.parallel(disp, fa = 'both'); PM
+
+```
+
+```{r}
+# ncomponent
+disp10 = fa(disp, nfactors = PM$ncomp, rotate = "Promax",	fm="ml")
+print(disp10)
+
+fa.diagram(disp10)
+
+```
+
+###
+ClockHour
+###
+
+```{r}
+
+#load 
+ch <- read_excel("~/Google Drive/CSFI/glc2017/FA_data_20170901.xlsx", sheet = "ClockHour")
+
+
+# 10-2 eigen value
+cor01 = cor(ch); cor01
+(ch.eigen = eigen(cor01)$value); conv.eigen
+
+# plot
+plot(ch.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot Clock Hour'); abline(h= 0.8,col='red')
+
+```
+```{r}
+# number of factors
+PM =fa.parallel(ch, fa = 'both'); PM
+```
+```{r}
+# ncomponent
+ch10 = fa(ch, nfactors = PM$ncomp, rotate = "Promax",	fm="ml")
+print(ch10)
+
+fa.diagram(ch10)
+
+```

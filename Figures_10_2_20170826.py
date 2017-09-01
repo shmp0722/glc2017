@@ -13,9 +13,11 @@ import pandas as pd
 #import seaborn as sb
 import xlrd
 import matplotlib.pyplot as plt
+from sklearn import linear_model
 
-df = pd.read_excel('df_20170826.xlsx')
-norm = pd.read_excel('norm_20170826.xlsx')
+
+df = pd.read_excel('df_20170901.xlsx')
+norm = pd.read_excel('norm_20170901.xlsx')
 
 
 Corr = df.corr()
@@ -28,13 +30,41 @@ toukei =  df.describe()
 plot figures
 '''
 
+from scipy import stats
+from matplotlib import lines
+
+
+
+slope, intercept, r_value, _, _ = stats.linregress(df.RGC_HFA9, df.RGC_OCT)
 
 
 # plot RGC_HFA10-2 vs RGC_OCT
 fig = plt.figure()
 plt.plot(df.RGC_HFA9,df.RGC_OCT,'.')
 plt.title('RGC_HFA10-2 vs RGC_OCT')
-plt.plot(range(0,1400000),range(0,1400000),'-b')
+
+line = lines.Line2D([0, 1400000], [intercept, 1400000 * slope + intercept])
+
+ax = fig.add_subplot(111)
+ax.add_line(line)
+
+
+#==============================================================================
+# Check what is degree of cpRNFLT best?
+#==============================================================================
+
+slope =[]
+intercept = []
+r_value = []
+
+for ii in range(1,361):
+    slope[ii], intercept[ii], r_value[ii], _, _ = stats.linregress(df.RGC_HFA9, df.RGC_OCT*ii/360)
+
+
+
+
+
+#plt.plot(range(0,1400000),range(0,1400000),'-b')
 plt.xlabel('RGC_HFA10-2')
 plt.ylabel('RGC_OCT')
 plt.axis('square')
