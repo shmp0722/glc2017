@@ -34,9 +34,12 @@ from scipy import stats
 from matplotlib import lines
 
 
+#
+#slope, intercept, r_value, _, _ = stats.linregress(df.RGC_HFA9, df.RGC_OCT)
 
-slope, intercept, r_value, _, _ = stats.linregress(df.RGC_HFA9, df.RGC_OCT)
-
+LM = []
+lm = np.polyfit(df.RGC_HFA9, df.RGC_OCT,1)
+LM[]
 
 # plot RGC_HFA10-2 vs RGC_OCT
 fig = plt.figure()
