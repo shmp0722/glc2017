@@ -196,20 +196,22 @@ saveas(gca, 'Disp_test_point&angle.png')
     + pt.RGC_CH6 + pt.RGC_CH12 + pt.RGC_CH5, 1); % 240degree
 %%
 x = [150:30:240];
-Y = [p{1}(1),p{2}(1),p{3}(1),p{4}(1)];
+y = [p{1}(1),p{2}(1),p{3}(1),p{4}(1)];
 
+[slope, st] = polyfit(x,y, 1);
 
+% Y = slope(1)*X + slope(2);
+X = (1-slope(2))/slope(1);
 %%
 figure; hold on ;
 for i = 1: 4
-
     plot(i,p{i}(1),'ob','MarkerFaceColor','b')
 end
-plot([0,5.5],[1,1],'--r')
-plot([4,4],[.4,1.1],'--r')
+plot([0,6],[1,1],'--r')
+plot([2.66,2.66],[.4,1.4],'--r')
 
-set(gca,'XTick', 1:5,'XLim',[0.5, 5.5])
-set(gca, 'XTickLabel',{'150','180','210','240'})
+set(gca,'XTick', [1,2,2.66,3:4],'XLim',[0.5, 4.5])
+set(gca, 'XTickLabel',{'150','180','199','210','240'})
 xlabel('degree of cpRNFL')
 ylabel('slope')
 set(gca, 'FontSize',18)
@@ -285,3 +287,10 @@ axis equal
 
 %%
 saveas(gca, 'NORM_Disp_RGC_HFA9vsOCT1.png')
+
+
+%%
+[R,P,RL,RU] = corrcoef(pt.RGC_disp, pt.AVERAGETHICKNESS)
+
+
+
