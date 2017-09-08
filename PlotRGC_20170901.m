@@ -82,6 +82,8 @@ xlabel('Normal subjects')
 
 %% degree of cpRNFL
 % conventional tesdt point plots
+clear p 
+
 figure; hold on;
 for ii = 1: 360
     [p{ii}, S{ii}] = polyfit(pt.RGC_HFA9, pt.RGC_OCT*ii/360, 1);
@@ -90,12 +92,13 @@ end
 set(gca,'XLim',[0,360],'XTick',[0,360],'FontSize',18)
 set(gca,'YLim',[0,1],'YTick',[0,1],'FontSize',18)
 
+title 'Slope of regression line '
 xlabel('degree of cpRNFL')
-ylabel('slope')
+ylabel('slope r')
 legend('conventional')
 
 %%
-saveas(gca, 'RGC_HFA9_cpRNFLT_slope.png')
+saveas(gca, fullfile(pwd,'/Figure', 'RGC_HFA9_cpRNFLT_slope.png'))
 
 %%
 c = jet(360);
@@ -110,6 +113,8 @@ ylabel('RGC from OCT')
 set(gca, 'FontSize',18)
 axis equal
 xlim = get(gca,'XLim');
+ylim = get(gca,'YLim');
+
 set(gca,'XLim',[0,xlim(2)])
 legend({'90','180','270', '360'},'Location','northwest')
 title('Conventional test point')

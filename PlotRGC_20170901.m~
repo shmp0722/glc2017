@@ -65,8 +65,8 @@ title('Conventional vs Displaced test point')
 ylabel('RGC count')
 xlabel('Patients')
 
-%% save pl
-saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
+%% save plot
+saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
 
 
 %% Norms
@@ -82,6 +82,8 @@ xlabel('Normal subjects')
 
 %% degree of cpRNFL
 % conventional tesdt point plots
+clear p 
+
 figure; hold on;
 for ii = 1: 360
     [p{ii}, S{ii}] = polyfit(pt.RGC_HFA9, pt.RGC_OCT*ii/360, 1);
@@ -90,6 +92,7 @@ end
 set(gca,'XLim',[0,360],'XTick',[0,360],'FontSize',18)
 set(gca,'YLim',[0,1],'YTick',[0,1],'FontSize',18)
 
+title 'Slope of linear '
 xlabel('degree of cpRNFL')
 ylabel('slope')
 legend('conventional')
