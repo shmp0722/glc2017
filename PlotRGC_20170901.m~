@@ -65,8 +65,8 @@ title('Conventional vs Displaced test point')
 ylabel('RGC count')
 xlabel('Patients')
 
-%% save plot
-saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
+%% save pl
+saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
 
 
 %% Norms
