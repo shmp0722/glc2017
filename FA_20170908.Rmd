@@ -1,0 +1,176 @@
+---
+title: "FA_20170908"
+output: html_notebook
+---
+628 eyes with out Norm.
+SO
+
+# load data and packages
+###
+conventional test point
+###
+```{r}
+# add path
+library(psych)
+library(readxl)
+
+#load 
+conv <- read_excel("~/Google Drive/CSFI/glc2017/df_20170908.xlsx", sheet = "HFA10_2")
+
+
+## 10-2 eigen value
+cor01 = cor(conv); cor01
+
+(conv.eigen = eigen(cor01)$value); conv.eigen
+plot(conv.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2'); abline(h= 0.8,col='red')
+```
+```{r}
+# number of factors
+PM =fa.parallel(conv, fa = 'both'); PM
+
+```
+```{r}
+# ncomponent
+conv10 = fa(conv, nfactors = PM$ncomp, rotate = "Promax",	fm = "ml")
+print(conv10)
+
+fa.diagram(conv10)
+```
+
+
+
+```{r}
+# ncomponent
+conv10 = fa(conv, nfactors = 6, rotate = "Promax",	fm = "ml")
+print(conv10)
+
+fa.diagram(conv10)
+```
+```{r}
+# ncomponent
+conv10 = fa(conv, nfactors = PM$nfact, rotate = "Promax",	fm = "ml")
+print(conv10)
+
+fa.diagram(conv10)
+```
+
+
+```{r}
+# nfactor = 5 
+conv10 = fa(conv, nfactors = PM$ncomp, rotate = "Promax",	fm = "ml")
+
+conv10$loadings
+```
+
+### 
+Displaced RGC 
+###
+
+```{r}
+
+#load 
+disp <- read_excel("~/Google Drive/CSFI/glc2017/df_20170908.xlsx", sheet = "disp68")
+
+
+# 10-2 eigen value
+cor01 = cor(disp); cor01
+(disp.eigen = eigen(cor01)$value); conv.eigen
+
+# plot
+plot(conv.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot 10-2'); abline(h= 0.8,col='red')
+
+```
+
+
+
+
+
+
+
+```{r}
+# number of factors
+disp_PM  =fa.parallel(disp, fa = 'both'); 
+disp_PM
+```
+
+```{r}
+# ncomponent
+disp10 = fa(disp, nfactors = disp_PM$ncomp, rotate = "Promax",	fm="ml")
+print(disp10)
+
+fa.diagram(disp10)
+
+```
+```{r}
+disp10$loadings
+
+```
+
+```{r}
+tp_disp <- read_excel("~/Google Drive/CSFI/glc2017/10-2testpoint_displacement.xlsx")
+#View(tp_disp)
+```
+
+## plot dosplaced test point
+```{r}
+plot(tp_disp$x, tp_disp$y, "p", xlab = '',ylab = '',asp = 1)
+plot.window()
+
+```
+## plot 'inverted' dosplaced test point
+```{r}
+plot(tp_disp$x, tp_disp$y*-1, "p", xlab = '',ylab = '',asp = 1, xlim = c(-10, 10), ylim = c(-10,10))
+
+```
+```{r}
+##--- An example for the use of 'asp' :
+require(stats)  # normally loaded
+loc <- cmdscale(eurodist)
+rx <- range(x <- loc[,1])
+ry <- range(y <- -loc[,2])
+plot(x, y, type = "n", asp = 1, xlab = "", ylab = "")
+abline(h = pretty(rx, 10), v = pretty(ry, 10), col = "lightgray")
+text(x, y, labels(eurodist), cex = 0.8)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+###
+ClockHour
+###
+
+```{r}
+
+#load 
+ch <- read_excel("~/Google Drive/CSFI/glc2017/df_20170908.xlsx", sheet = "CH")
+
+
+# 10-2 eigen value
+cor01 = cor(ch); cor01
+(ch.eigen = eigen(cor01)$value); conv.eigen
+
+# plot
+plot(ch.eigen,type = 'b',ylab = 'eigen value',xlab = 'Component Num',main = 'Scree Plot Clock Hour'); abline(h= 0.8,col='red')
+
+```
+```{r}
+# number of factors
+PM =fa.parallel(ch, fa = 'both'); PM
+```
+```{r}
+# ncomponent
+ch10 = fa(ch, nfactors = PM$ncomp, rotate = "Promax",	fm="ml")
+print(ch10)
+
+fa.diagram(ch10)
+
+```
