@@ -3,10 +3,10 @@ function DiplacementTP
 %% 
 tp_disp = readtable('~/Google Drive/CSFI/glc2017/10-2testpoint_displacement.xlsx');
 
-%%
+%% SO displaced test point
 figure; hold on;
 
-plot(tp_disp.x, tp_disp.y,'o');
+plot(tp_disp.x, tp_disp.y,'sk','MarkerSize',10);
 axis equal
 
 % add circle
@@ -25,9 +25,9 @@ end
 
 axis square
 %%
-tp_disp.ecc =[];
-tp_disp.ecc(abs(tp_disp.x)>abs(tp_disp.y)) = abs(tp_disp.x);
-tp_disp.ecc(abs(tp_disp.x)<abs(tp_disp.y)) = abs(tp_disp.y);
+
+tp_disp.ecc(abs(tp_disp.x)>abs(tp_disp.y)) = abs(tp_disp.x(abs(tp_disp.x)>abs(tp_disp.y)));
+tp_disp.ecc(abs(tp_disp.x)<abs(tp_disp.y)) = abs(tp_disp.y(abs(tp_disp.x)<abs(tp_disp.y)));
 
 
 %% conventinal test point
@@ -55,3 +55,28 @@ end
 axis square
 title 'Conventinal test point'
 set(gca, 'FontSize',18)
+
+
+%%
+
+M_angle = atan2(tp.y(i),tp.x(i))*180/pi; % sita = atan2(Y,X)
+
+Displacement = M_angle;
+
+%% Trupin's formula
+% 1. Dc(r, Theta) ; density of RGCs abd Df(r,Theta) density of RGC
+% receptive fields at some retinal location(r, Theta) in polar coordinates.
+% Btoh functions give density in [cells/mm^2]
+
+% 2. Assume
+
+
+%% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999 
+% x = Cone ecc [mm] 
+% X = x/3.6 [degree]
+
+for i = 
+M_angle = atan2(tp.y(i),tp.x(i))*180/pi; % sita = atan2(Y,X)
+
+
+disp_y = 0.37*exp(-((x-0.67)/1.12)^2);

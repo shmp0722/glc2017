@@ -71,7 +71,8 @@ def RGC_HFA30_count(dB, testpoint_n):
 
 def RGC_HFA10_count(dB, testpoint_n ):
     tp = pd.read_excel("~/Google Drive/CSFI/glc2017/10-2testpoint_displacement.xlsx")
-    Ecc = np.sqrt(tp.x[testpoint_n]**2 + tp.y[testpoint_n]**2)
+#    Ecc = np.sqrt(tp.x[testpoint_n]**2 + tp.y[testpoint_n]**2)
+    Ecc = tp.ecc[testpoint_n]
     
     RGC_count = 10**(0.1*(dB-1-(-1.5*1.34*Ecc-14.8))/(0.054*1.34*Ecc+0.9))*2.95/9;
     return RGC_count
@@ -80,14 +81,14 @@ def RGC_HFA10_count(dB, testpoint_n ):
 for ii in range(0, 68):
     df['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(df['P'+str(ii+1)], ii)
 
-df.to_excel('df_20170826.xlsx')
+df.to_excel('df_20170910.xlsx')
 
 
 df = pd.read_excel('/Users/shumpei/Google Drive/CSFI/glc2017/\
-df_20170826.xlsx')
+df_20170910.xlsx')
 
 df['RGC_OCT135'] = df.RGC_OCT*135/360
-df.to_excel('df_20170901.xlsx')
+df.to_excel('df_20170910.xlsx')
 
 
   
@@ -117,13 +118,13 @@ DF['RGC_OCT2'] = DF.RGC_OCT/2
 for ii in range(0, 68):
     DF['RGC_disp'+'_P'+str(ii+1)] = RGC_HFA10_count(DF['P'+str(ii+1)], ii)
 
-DF.to_excel('norm_20170826.xlsx')
-DF = pd.read_excel('norm_20170826.xlsx')
+DF.to_excel('norm_20170910.xlsx')
+DF = pd.read_excel('norm_20170910.xlsx')
 
 
 DF['RGC_OCT135'] = DF.RGC_OCT*135/360
 
-DF.to_excel('norm_20170901.xlsx')
+DF.to_excel('norm_20170910.xlsx')
 
 
 '''
