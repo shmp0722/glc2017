@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-function DiplacementTP
-
-%%
-=======
 function DiplacementTP 
 
-%% 
-<<<<<<< HEAD
->>>>>>> master
-tp_disp = readtable('~/Google Drive/CSFI/glc2017/10-2testpoint_displacement.xlsx');
-=======
+%%
 tp_disp = readtable('10-2testpoint_displacement.xlsx');
->>>>>>> cba0431bd10da5d677a2a0cc1167d99a0ab6922c
 
 %% SO displaced test point
 figure; hold on;
@@ -28,11 +18,7 @@ cx = 0; cy = 0; % ??
 
 t = linspace(0,2*pi,100);
 
-<<<<<<< HEAD
-for i = 1: length(R)
-=======
 for i = 1: length(R) 
->>>>>>> master
     r = R(i);           % ??
     plot(r*sin(t)+cx,r*cos(t)+cy,'Color',C(i,:), 'LineWidth',2.5)
 end
@@ -61,11 +47,7 @@ cx = 0; cy = 0; % ??
 
 t = linspace(0,2*pi,100);
 
-<<<<<<< HEAD
-for i = 1: length(R)
-=======
 for i = 1: length(R) 
->>>>>>> master
     r = R(i);           % ??
     plot(r*sin(t)+cx,r*cos(t)+cy,'Color',C(i,:), 'LineWidth',2.5)
 end
@@ -78,12 +60,8 @@ set(gca, 'FontSize',18)
 %%
 
 M_angle = atan2(tp.y(i),tp.x(i)); %*180/pi; % sita = atan2(Y,X)
-
-<<<<<<< HEAD
-=======
 Displacement = M_angle;
 
->>>>>>> master
 %% Trupin's formula
 % 1. Dc(r, Theta) ; density of RGCs abd Df(r,Theta) density of RGC
 % receptive fields at some retinal location(r, Theta) in polar coordinates.
@@ -91,9 +69,6 @@ Displacement = M_angle;
 
 % 2. Assume
 
-
-<<<<<<< HEAD
-<<<<<<< HEAD
 %% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999
 % x = Cone ecc [mm]
 % X = x/3.6 [degree]
