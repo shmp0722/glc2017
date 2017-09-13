@@ -2,7 +2,15 @@ function PlotRGC_20170901
 
 %% load data
 
-pt = readtable('df_20170901.xlsx');
+pt = readtable('df_20170908.csv');
+
+% pt = readtable('df_20170901.xlsx');
+
+% remove OHT
+% pt(357:358,:) = [];
+% writetable(pt, 'df_20170908.csv');
+
+
 norm = readtable('norm_20170901.xlsx');
 
 %% conventional
@@ -10,8 +18,8 @@ figure; hold on;
 plot(pt.RGC_HFA9, pt.RGC_OCT,'ob','MarkerFaceColor','b')
 plot(pt.RGC_HFA9, pt.RGC_OCT2,'or','MarkerFaceColor','r')
 
-plot(norm.RGC_HFA9, norm.RGC_OCT,'ob','MarkerFaceColor','b')
-plot(norm.RGC_HFA9, norm.RGC_OCT2,'or','MarkerFaceColor','r')
+% plot(norm.RGC_HFA9, norm.RGC_OCT,'og','MarkerFaceColor','b')
+% plot(norm.RGC_HFA9, norm.RGC_OCT2,'og','MarkerFaceColor','r')
 
 title 'RGC HFA vs RGC OCT'
 xlabel 'RGC HFA10-2'
@@ -23,17 +31,19 @@ ytick = get(gca,'YTick');
 set(gca,'XLim',[0,xlim(2)],'XTick',ytick)
 set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
 l = legend({'360','180'},'Location','northwest');
+plot([0:1280000], [0:1280000],'--k' )
 
 %% save  the fig
-saveas(gca, 'RGC_HFA9vsOCT1.png')
+saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1.png'))
+% saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1_withNorm.png'))
 
 %% Displaced
 figure; hold on;
 plot(pt.RGC_disp, pt.RGC_OCT,'ob','MarkerFaceColor','b')
 plot(pt.RGC_disp, pt.RGC_OCT2,'or','MarkerFaceColor','r')
 
-plot(norm.RGC_disp, norm.RGC_OCT,'ob','MarkerFaceColor','b')
-plot(norm.RGC_disp, norm.RGC_OCT2,'or','MarkerFaceColor','r')
+% plot(norm.RGC_disp, norm.RGC_OCT,'og','MarkerFaceColor','b')
+% plot(norm.RGC_disp, norm.RGC_OCT2,'og','MarkerFaceColor','r')
 
 title 'RGC HFA vs RGC OCT'
 xlabel 'RGC HFA10-2'
@@ -44,13 +54,47 @@ xlim = get(gca,'yLim');
 ytick = get(gca,'YTick');
 set(gca,'XLim',[0,xlim(2)],'XTick',ytick)
 set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
-l = legend({'360','180'},'Location','northwest');
+l = legend({'360','180'},'Location','northeast');
+plot([0:1280000], [0:1280000],'--k' )
+
 
 %% save as figure.png
-saveas(gca, 'RGC_dispvsOCT2.png')
+% saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
+saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2.png'))
+
+
+%% boxplot
+% patients
+figure; hold on;
+boxplot([pt.RGC_OCT,pt.RGC_OCT2],'notch','on','labels',{'Conventional','Displaced'})
+title('Conventional vs Displaced test point')
+ylabel('RGC count')
+xlabel('Test point')
+set(gca, 'FontSize',18)
+% 
+mean(pt.RGC_OCT)
+std(pt.RGC_OCT)
+
+
+%% save plot
+saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
+
+
+%% Norms
+figure; hold on;
+boxplot([norm.RGC_OCT,norm.RGC_OCT2],'notch','on','labels',{'Conventional','Displaced'})
+title('Conventional vs Displaced test point')
+ylabel('RGC count')
+xlabel('Normal subjects')
+
+
+%% paired t test
+[h,p,ci,stats] = ttest(pt.RGC_OCT,pt.RGC_OCT2);
 
 %% degree of cpRNFL
 % conventional tesdt point plots
+clear p 
+
 figure; hold on;
 for ii = 1: 360
     [p{ii}, S{ii}] = polyfit(pt.RGC_HFA9, pt.RGC_OCT*ii/360, 1);
@@ -59,12 +103,13 @@ end
 set(gca,'XLim',[0,360],'XTick',[0,360],'FontSize',18)
 set(gca,'YLim',[0,1],'YTick',[0,1],'FontSize',18)
 
+title 'Slope of regression line '
 xlabel('degree of cpRNFL')
-ylabel('slope')
+ylabel('slope r')
 legend('conventional')
 
 %%
-saveas(gca, 'RGC_HFA9_cpRNFLT_slope.png')
+saveas(gca, fullfile(pwd,'/Figure', 'RGC_HFA9_cpRNFLT_slope.png'))
 
 %%
 c = jet(360);
@@ -79,6 +124,8 @@ ylabel('RGC from OCT')
 set(gca, 'FontSize',18)
 axis equal
 xlim = get(gca,'XLim');
+ylim = get(gca,'YLim');
+
 set(gca,'XLim',[0,xlim(2)])
 legend({'90','180','270', '360'},'Location','northwest')
 title('Conventional test point')
@@ -104,6 +151,22 @@ set(gca,'FontSize', 18, 'XTick',[0, 213, 360])
 
 %%
 saveas(gca, 'Disp_cpRNFLT_slope.png')
+
+%% displaced boxplot
+% patients
+figure; hold on;
+boxplot([pt.RGC_disp,pt.RGC_OCT2],'notch','on','labels',{'Conventional','Displaced'})
+title('Conventional vs Displaced test point')
+ylabel('RGC count')
+xlabel('Test point')
+set(gca, 'FontSize',18)
+% 
+mean(pt.RGC_OCT)
+std(pt.RGC_OCT)
+
+
+%% save plot
+saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
 
 %% Displaced
 c = jet(360);
