@@ -96,7 +96,7 @@ tp.disp_y = (tp.ecc+disp_deg) .* sin(Theta); %
 
 %% make figure to show this Sjostrand's model
 figure; hold on;
-plot(tp.disp_x, tp.disp_y,'sr','MarkerSize',10)%, 'MarkerFaceColor','k');
+plot(tp.disp_x, tp.disp_y,'or','MarkerSize',10)%, 'MarkerFaceColor','k');
 plot(tp.x, tp.y,'sk','MarkerSize',8)%, 'MarkerFaceColor','k');
 
 axis equal
@@ -115,7 +115,12 @@ for i = 1: length(R)
     plot(r*sin(t)+cx,r*cos(t)+cy,'Color',C(i,:), 'LineWidth',2.5)
 end
 
-%% 
+%% Medeiros
+sort(tp.ecc)
+G = findgroups(tp.ecc);
+
+R = [3.4, 5.6, 6.8, 8.3, 9.7];
+
 figure; hold on;
 disp_mm = 1.29*(tp.ecc./3.6+0.046).^0.67; %in [mm]
 plot(disp_mm)
