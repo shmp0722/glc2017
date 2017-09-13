@@ -6,8 +6,12 @@ function DiplacementTP
 function DiplacementTP 
 
 %% 
+<<<<<<< HEAD
 >>>>>>> master
 tp_disp = readtable('~/Google Drive/CSFI/glc2017/10-2testpoint_displacement.xlsx');
+=======
+tp_disp = readtable('10-2testpoint_displacement.xlsx');
+>>>>>>> cba0431bd10da5d677a2a0cc1167d99a0ab6922c
 
 %% SO displaced test point
 figure; hold on;
@@ -34,14 +38,14 @@ for i = 1: length(R)
 end
 
 axis square
-%%
+%% 
 
 tp_disp.ecc(abs(tp_disp.x)>abs(tp_disp.y)) = abs(tp_disp.x(abs(tp_disp.x)>abs(tp_disp.y)));
 tp_disp.ecc(abs(tp_disp.x)<abs(tp_disp.y)) = abs(tp_disp.y(abs(tp_disp.x)<abs(tp_disp.y)));
 
 
 %% conventinal test point
-tp  = readtable('~/Google Drive/CSFI/glc2017/10-2testpoint.csv');
+tp  = readtable('10-2testpoint.csv');
 
 figure; hold on;
 
@@ -73,7 +77,7 @@ set(gca, 'FontSize',18)
 
 %%
 
-M_angle = atan2(tp.y(i),tp.x(i))*180/pi; % sita = atan2(Y,X)
+M_angle = atan2(tp.y(i),tp.x(i)); %*180/pi; % sita = atan2(Y,X)
 
 <<<<<<< HEAD
 =======
@@ -88,6 +92,7 @@ Displacement = M_angle;
 % 2. Assume
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 %% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999
 % x = Cone ecc [mm]
@@ -146,17 +151,15 @@ disp_mm = 1.29*(tp.ecc./3.6+0.046).^0.67; %in [mm]
 plot(disp_mm)
 
 
-
-
-
-=======
-%% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999 
+%% Sjostrand J. Graefe?s Arch Clin Exp Ophthalmol 1999 
 % x = Cone ecc [mm] 
 % X = x/3.6 [degree]
 
-for i = 
-M_angle = atan2(tp.y(i),tp.x(i))*180/pi; % sita = atan2(Y,X)
 
+M_angle = atan2(tp.y(i),tp.x(i));% *180/pi; % sita = atan2(Y,X)
 
-disp_y = 0.37*exp(-((x-0.67)/1.12)^2);
->>>>>>> master
+ecc_deg = sqrt(tp.y(i)^2+tp.x(i)^2);
+ecc_mm  = 3.6*ecc_deg;
+
+displ_mm = 0.37*exp(-((ecc_mm-0.67)/1.12)^2);
+displ_deg = displ_mm/3.6;
