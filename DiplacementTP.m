@@ -58,7 +58,8 @@ axis equal
 axis square
 title 'Conventinal test point'
 set(gca, 'FontSize',18)
-
+%%
+saveas(gca, fullfile(pwd,'/Figure','ConventionalTestPoint.png'))
 
 %% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999
 % x = Cone ecc [mm]
@@ -135,6 +136,9 @@ plot(tp.disp_x, tp.disp_y,'sk','MarkerSize',10)%, 'MarkerFaceColor','k');
 axis equal
 title 'Sjostrand model'
 set(gca,'FontSize',18)
+
+%%
+saveas(gca, fullfile(pwd,'Figure/SjostrandModel.png'))
 
 %% Sjostrand J. Graefe?s Arch Clin Exp Ophthalmol 1999 
 % x = Cone ecc [mm] 
@@ -218,12 +222,14 @@ tp.Theta =  atan2(tp.y,tp.x); % angle of each test point
 tp.turpin_disp_x = (tp.ecc+tp.turpin_disp) .* cos(tp.Theta); % 
 tp.turpin_disp_y = (tp.ecc+tp.turpin_disp) .* sin(tp.Theta); % 
 
+%% save progression
 writetable(tp,'10-2testpoint.csv')
 %% figure
 figure; hold on;
 
 % add circle
 R = [1, 3, 5, 7, 9];
+% R = [3.4, 5.6, 6.8, 8.3, 9.7];
 
 C = jet(length(R));
 
@@ -242,5 +248,8 @@ plot(tp.turpin_disp_x , tp.turpin_disp_y,'sk','MarkerSize',10)%, 'MarkerFaceColo
 % plot(tp.x, tp.y,'sk','MarkerSize',8)%, 'MarkerFaceColor','k');
 
 axis equal
-title 'Turpin model'
+title 'Drasdo-Turpin model'
 set(gca,'FontSize',18)
+
+%% save the figure
+saveas(gca, fullfile(pwd,'/Figure/Drasdo-TurpinModel.png'))

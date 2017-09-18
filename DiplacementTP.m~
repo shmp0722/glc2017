@@ -58,7 +58,8 @@ axis equal
 axis square
 title 'Conventinal test point'
 set(gca, 'FontSize',18)
-
+%%
+sa
 
 %% Sj?strand J. Graefe?s Arch Clin Exp Ophthalmol 1999
 % x = Cone ecc [mm]
@@ -210,9 +211,38 @@ Temporal = readtable('Drasdo.xlsx','Sheet','Temporal');
 % k(r) = 1+(1.004 - 0.007209*r + 0.001694*r^2 - 0:00003765^r^3)^-2;
 %
 % Df(r/theta) = (1.12 + 0.0273*r)*k/1.155/(Rve^2-Roe^2);
-=
-
-Rve?r; h?
-2  Roe?r?
-2
-
+
+%%
+% tp  = readtable('10-2testpoint.csv');
+tp.Theta =  atan2(tp.y,tp.x); % angle of each test point
+
+tp.turpin_disp_x = (tp.ecc+tp.turpin_disp) .* cos(tp.Theta); % 
+tp.turpin_disp_y = (tp.ecc+tp.turpin_disp) .* sin(tp.Theta); % 
+
+writetable(tp,'10-2testpoint.csv')
+%% figure
+figure; hold on;
+
+% add circle
+% R = [1, 3, 5, 7, 9];
+R = [3.4, 5.6, 6.8, 8.3, 9.7];
+
+C = jet(length(R));
+
+cx = 0; cy = 0; % ??
+
+t = linspace(0,2*pi,100);
+
+for i = 1: length(R)
+    r = R(i);           % ??
+    plot(r*sin(t)+cx,r*cos(t)+cy,'Color',C(i,:), 'LineWidth',2.5)
+end
+
+legend(num2str(R(1)),num2str(R(2)),num2str(R(3)),num2str(R(4)),num2str(R(5)))
+
+plot(tp.turpin_disp_x , tp.turpin_disp_y,'sk','MarkerSize',10)%, 'MarkerFaceColor','k');
+% plot(tp.x, tp.y,'sk','MarkerSize',8)%, 'MarkerFaceColor','k');
+
+axis equal
+title 'Drasdo-Turpin model'
+set(gca,'FontSize',18)

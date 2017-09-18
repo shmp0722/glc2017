@@ -10,7 +10,6 @@ pt = readtable('df_20170910.xlsx');
 pt(357:358,:) = [];
 % writetable(pt, 'df_20170908.csv');
 
-
 norm = readtable('norm_20170901.xlsx');
 
 %% conventional
@@ -369,7 +368,7 @@ saveas(gca, 'NORM_Disp_RGC_HFA9vsOCT1.png')
 
 
 %%
-[R,P,RL,RU] = corrcoef(pt.RGC_disp, pt.AVERAGETHICKNESS)
+[R,P,RL,RU] = corrcoef(pt.RGC_disp, pt.AVERAGETHICKNESS);
 
 
 

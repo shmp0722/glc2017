@@ -6,12 +6,11 @@ Created on Sun Aug 20 13:23:11 2017
 @author: shumpei
 """
 
-import os
+#import seaborn as sb
+# import seaborn as sb
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-#import seaborn as sb
-import xlrd
-import matplotlib.pyplot as plt
 
 '''
 load data and edit data frame for stats 
@@ -134,7 +133,6 @@ Factor analysis
 
 FA10 = pd.read_csv("/Users/shumpei/Google Drive/CSFI/glc2017/Results_FactorAnalysis.csv")
 
-from scipy import linalg
 from sklearn.decomposition import PCA, FactorAnalysis
 from sklearn.covariance import ShrunkCovariance, LedoitWolf
 from sklearn.model_selection import cross_val_score
