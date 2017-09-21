@@ -18,4 +18,12 @@ ylabel 'RGC count'
 set(gca, 'FontSize',18)
 title 'Harwerth '
 
-%% 
+%% RGC OCT
+
+Ga = RGC_OCT(t, w, age, D);
+
+
+%% thickness
+
+t =  PredictedThickness_t(Sa , ecc, w, age, D);
+
