@@ -59,6 +59,12 @@ xlabel 'MD10-2'
 ylabel 'wrgc'
 
 legend({'360','180'},'Location','northwest')
+set(gca , 'FontSize', 18)
 
 %% save figure
 saveas(gca, fullfile(pwd,'Figure/wrgc180VSboth.png'))
+
+%% 
+[R, p ] = corrcoef(pt.MD10_2, pt.wrgc360)
+
+[R, p ] = corrcoef(pt.MD10_2, pt.wrgc180)
