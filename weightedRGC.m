@@ -62,3 +62,5 @@ legend({'360','180'},'Location','northwest')
 
 %% save figure
 saveas(gca, fullfile(pwd,'Figure/wrgc180VSboth.png'))
+
+%%
