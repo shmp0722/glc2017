@@ -1,7 +1,7 @@
 function weightedRGC
 %% load data
 
-pt = readtable('df_20170922_Turpin.xlsx');
+pt = readtable('df_20170918_Turpin.xlsx');
 
 % pt = readtable('df_20170901.xlsx');
 
@@ -12,12 +12,12 @@ pt(357:358,:) = [];
 norm = readtable('norm_20170918_Turpin.xlsx');
 
 %% add wrgc 360
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT;
-% SAPrgc = pt.RGC_HFA9;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT;
+SAPrgc = pt.RGC_HFA9;
 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc360 = wrgc;
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc360 = wrgc;
 
 % 
 figure; hold on;
@@ -31,12 +31,12 @@ set(gca , 'FontSize', 18)
 saveas(gca, fullfile(pwd,'Figure/wrgc360VSmd10_2.png'))
 
 %% add wrgc 180
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT2;
-% SAPrgc = pt.RGC_HFA9;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT2;
+SAPrgc = pt.RGC_HFA9;
 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc180 = wrgc;
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc180 = wrgc;
 
 %% 
 figure; hold on;
@@ -71,12 +71,12 @@ saveas(gca, fullfile(pwd,'Figure/wrgc180VSboth.png'))
 
 %% Displaced
 %% add wrgc disp 360
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT;
-% SAPrgc = pt.RGC_disp;
-% 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc_disp_360 = wrgc;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT;
+SAPrgc = pt.RGC_disp;
+
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc_disp_360 = wrgc;
 
 %
 figure; hold on;
@@ -88,12 +88,12 @@ ylabel 'wrgc 360 degree'
 set(gca , 'FontSize', 18)
 
 %% add disp 180
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT2;
-% SAPrgc = pt.RGC_disp;
-% 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc_disp_180 = wrgc;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT2;
+SAPrgc = pt.RGC_disp;
+
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc_disp_180 = wrgc;
 
 %
 figure; hold on;
@@ -116,13 +116,14 @@ legend({'360','180'},'Location','northwest')
 set(gca , 'FontSize', 18)
 
 %% save figure
-
 saveas(gca, fullfile(pwd,'Figure/wrgcDispVSboth.png'))
 
 %% both 360 & 180
 figure; hold on;
 
 plot(pt.MD10_2, pt.wrgc_disp_360,'ob')
+plot(pt.MD10_2, pt.wRGC9,'o')
+
 plot(pt.MD10_2, pt.wrgc_disp_180,'or')
 
 xlabel 'MD10-2'
@@ -130,3 +131,4 @@ ylabel 'wrgc'
 
 legend({'360','180'},'Location','northwest')
 set(gca , 'FontSize', 18)
+
