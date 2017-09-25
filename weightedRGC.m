@@ -120,13 +120,53 @@ set(gca , 'FontSize', 18)
 saveas(gca, fullfile(pwd,'Figure/wrgcDispVSboth.png'))
 
 %% both 360 & 180
-figure; hold on;
+figure; subplot(1,2,1);hold on;
 
-plot(pt.MD10_2, pt.wrgc_disp_360,'ob')
-plot(pt.MD10_2, pt.wrgc_disp_180,'or')
+c = jet(4);
+
+plot(pt.MD10_2, pt.wrgc360,'o')
+plot(pt.MD10_2, pt.RGC_OCT,'o')
+
+
 
 xlabel 'MD10-2'
 ylabel 'wrgc'
 
+legend({'RGC OCT360','wrgc360'},'Location','northwest')
+set(gca , 'FontSize', 18)
+
+
+%%
+figure;hold on;
+
+c = jet(4);
+
+plot(pt.MD10_2, pt.wrgc180,'o')
+plot(pt.MD10_2, pt.RGC_OCT2,'o')
+
+xlabel 'MD10-2'
+ylabel 'wrgc'
+
+legend({'RGC OCT180','wrgc180'},'Location','northwest')
+set(gca , 'FontSize', 18)
+
+%%
+figure;hold on;
+
+c = jet(4);
+
+plot(pt.MD10_2, pt.RGC_OCT,'ob')
+plot(pt.MD10_2, pt.RGC_OCT2,'or')
+
+xlabel 'MD10-2'
+ylabel 'RGC count'
+
 legend({'360','180'},'Location','northwest')
 set(gca , 'FontSize', 18)
+%%
+saveas(gca , fullfile(pwd,'Figure/vsMD10.png'))
+
+%%
+[R, p ] = corrcoef(pt.MD10_2, pt.RGC_OCT)
+
+[R, p ] = corrcoef(pt.MD10_2, pt.RGC_OCT2)

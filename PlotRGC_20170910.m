@@ -10,7 +10,7 @@ pt = readtable('df_20170910.xlsx');
 pt(357:358,:) = [];
 % writetable(pt, 'df_20170908.csv');
 
-norm = readtable('norm_20170901.xlsx');
+norm = readtable('norm_20170910.xlsx');
 
 %% conventional
 figure; hold on;
