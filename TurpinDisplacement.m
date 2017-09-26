@@ -52,7 +52,7 @@ xlim = get(gca,'yLim');
 ytick = get(gca,'YTick');
 set(gca,'XLim',[0,xlim(2)],'XTick',ytick)
 set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
-n = legend({'360','180'},'Location','northeast');
+n = legend({'360','180'},'Location','northwest');
 plot([0:1280000], [0:1280000],'--k' )
 
 
@@ -165,7 +165,7 @@ saveas(gca, fullfile(pwd,'/Figure','Disp_cpRNFLT_slope.png'))
 figure; hold on;
 boxplot([pt.RGC_disp, pt.RGC_HFA9],'notch','on','labels',{'Conventional','Displaced'})
 title('Conventional vs Displaced test point')
-ylabel('RGC count')
+ylabel('RGC HFA')
 xlabel('Test point')
 set(gca, 'FontSize',18)
 % 
@@ -390,7 +390,7 @@ PPG = pt(rows, :);
 
 [a,b] = size(NTG);
 
-%%
+%% box plot across diseases
 figure; hold on;
 boxplot(pt.RGC_OCT,pt.disease, 'notch','on' )
 xlabel 'disease'
@@ -401,6 +401,7 @@ figure; hold on;
 boxplot(pt.RGC_disp, pt.disease, 'notch','on' )
 xlabel 'disease'
 ylabel 'RGC HFA displaced'
+title 'RGC OCT'
 
 %% disease stage
 early =   pt.MD10_2 > -6; 
