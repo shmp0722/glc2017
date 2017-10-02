@@ -1,7 +1,7 @@
 function TurpinDisplacement
 %% load data
 
-pt = readtable('df_20170918_Turpin.xlsx');
+pt = readtable('df_20170922_Turpin.xlsx');
 
 % pt = readtable('df_20170901.xlsx');
 
@@ -11,10 +11,26 @@ pt(357:358,:) = [];
 
 norm = readtable('norm_20170918_Turpin.xlsx');
 
+
+%% SUMMING CH
+RGC_OCTbyCH = pt.RGC_CH6+ pt.RGC_CH7 + pt.RGC_CH8 + pt.RGC_CH9 + pt.RGC_CH10 + pt.RGC_CH11;
+ 
+%% 
+figure;
+plot(RGC_OCTbyCH,   pt.RGC_OCT2, 'o')
+ xlabel 'by Clockhour'
+  ylabel 'ave thickness'
+  axis equal
+  
+  pt.RGC_OCTbyCH = RGC_OCTbyCH; 
+
 %% conventional
 figure; hold on;
 plot(pt.RGC_HFA9, pt.RGC_OCT,'ob','MarkerFaceColor','b')
-plot(pt.RGC_HFA9, pt.RGC_OCT2,'or','MarkerFaceColor','r')
+% plot(pt.RGC_HFA9, pt.RGC_OCT2,'or','MarkerFaceColor','r')
+
+plot(pt.RGC_HFA9, pt.RGC_OCTbyCH,'or','MarkerFaceColor','r')
+
 
 % plot(norm.RGC_HFA9, norm.RGC_OCT,'og','MarkerFaceColor','b')
 % plot(norm.RGC_HFA9, norm.RGC_OCT2,'og','MarkerFaceColor','r')
@@ -31,9 +47,41 @@ set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
 n = legend({'360','180'},'Location','northwest');
 plot([0:1280000], [0:1280000],'--k' )
 
+%%
+r = corrcoef(pt.RGC_HFA9, pt.RGC_OCT)
+
+r = corrcoef(pt.RGC_HFA9, pt.RGC_OCTbyCH)
+
+
 %% save  the fig
 saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1.png'))
 % saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1_withNorm.png'))
+
+%% conv vs MD10-2
+figure; hold on;
+
+plot(pt.MD10_2, pt.RGC_OCT,'ob')
+plot(pt.MD10_2, pt.RGC_OCT2,'or')
+
+xlabel 'MD10-2'
+ylabel 'RGC OCT'
+
+legend({'360','180'},'Location','northwest')
+set(gca , 'FontSize', 18)
+
+
+%%
+
+figure; hold on;
+
+plot(pt.MD10_2, pt.RGC_disp,'ok')
+plot(pt.MD10_2, pt.RGC_HFA9,'or')
+
+xlabel 'MD10-2'
+ylabel 'RGC OCT'
+
+legend({'360','180'},'Location','northwest')
+set(gca , 'FontSize', 18)
 
 %% Displaced
 figure; hold on;
@@ -55,10 +103,28 @@ set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
 n = legend({'360','180'},'Location','northwest');
 plot([0:1280000], [0:1280000],'--k' )
 
+%%
+r = corrcoef(pt.RGC_disp, pt.RGC_OCT)
+r = corrcoef(pt.RGC_disp, pt.RGC_OCT2)
 
+mean(pt.RGC_disp)
+mean(pt.RGC_OCT)
+mean(pt.RGC_OCT2)
 %% save as figure.png
 % saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
 saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_Turpin.png'))
+
+%% disp vs MD10-2
+figure; hold on;
+
+plot(pt.MD10_2, pt.RGC_OCT,'ob')
+plot(pt.MD10_2, pt.RGC_OCT2,'or')
+
+xlabel 'MD10-2'
+ylabel 'RGC OCT'
+
+legend({'360','180'},'Location','northwest')
+set(gca , 'FontSize', 18)
 
 %% boxplot
 % patients
@@ -77,7 +143,7 @@ saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp_Turpin.png'))
 figure; hold on;
 boxplot([norm.RGC_OCT,norm.RGC_OCT2],'notch','on','labels',{'Conventional','Displaced'})
 title('Conventional vs Displaced test point')
-ylabel('RGC count')
+ylabel('HFA RGC count')
 xlabel('Normal subjects')
 
 
@@ -467,5 +533,75 @@ ylabel 'RGC count'
 saveas(gca, fullfile(pwd,'Figure/bar.png'))
 
 
+%% Consider expected RGC
+
+% rgc = ExpectedRGC(age, OpticDiscArea )
+
+rgc = ExpectedRGC(pt.age, pt.Disc_Area);
+
+%%
+figure; hold on;
+plot(pt.expectedRGCnumber,rgc)
+
+pt.expectedRGCnumber2 = pt.expectedRGCnumber./2;
+
+%%
+figure; hold on;
+plot(pt.RGC_OCT2, pt.expectedRGCnumber,'o' )
 
 
+%%
+figure; hold on;
+
+plot(norm.expectedRGCnumber, norm.RGC_OCT2,'o')
+[R, p] = corrcoef(norm.expectedRGCnumber, norm.RGC_OCT2)
+
+mean(norm.expectedRGCnumber)
+mean(norm.RGC_OCT)
+mean(norm.RGC_OCT2)
+%% Clock hour 
+
+% Ga = RGC_OCT(t, w, age, D)
+% Ga6 = t * (w * (-0.007*age + 1.4)*10^(0.1*(-0.28*D+0.18)));
+
+   Ga6 = pt.CLOCKHOUR_6 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+   Ga7 = pt.CLOCKHOUR_7 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+   Ga8 = pt.CLOCKHOUR_8 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+   Ga9 = pt.CLOCKHOUR_9 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+   Ga10 = pt.CLOCKHOUR_10 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+   Ga11 = pt.CLOCKHOUR_11 .* (10870*30/360 .* (-0.007 .* pt.age + 1.4) .*10.^(0.1.*(-0.28 .* pt.MD10_2+0.18)));
+
+   pt.RGC_OCTbyCH = sum([Ga6,Ga7,Ga8,Ga9,Ga10,Ga11],2);  
+  %%
+byClockHour = mean( [pt.CLOCKHOUR_6, pt.CLOCKHOUR_7, pt.CLOCKHOUR_8, pt.CLOCKHOUR_9, pt.CLOCKHOUR_10,...
+      pt.CLOCKHOUR_11],2);
+  
+  pt.AVERAGETHICKNESS
+  
+  %% checking ave thickness by 360 and CH
+  figure;hold on; 
+  plot(byClockHour,   pt.AVERAGETHICKNESS, 'o')
+  xlabel 'by Clockhour'
+  ylabel 'ave thickness'
+  axis equal
+  
+  %% check RGC count from just divided 2 or sum CH
+  
+  figure; hold on;
+  plot(pt.RGC_OCTbyCH,   pt.RGC_OCT2, 'o')
+  
+  xlabel 'by Clockhour'
+  ylabel 'ave thickness'
+  axis equal
+  
+%% SUMMING CH
+RGC_OCTbyCH = pt.RGC_CH6+ pt.RGC_CH7 + pt.RGC_CH8 + pt.RGC_CH9 + pt.RGC_CH10 + pt.RGC_CH11;
+ 
+%% 
+figure;
+plot(RGC_OCTbyCH,   pt.RGC_OCT2, 'o')
+ xlabel 'by Clockhour'
+  ylabel 'ave thickness'
+  axis equal
+  
+  pt.RGC_OCTbyCH = RGC_OCTbyCH;

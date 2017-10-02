@@ -1,7 +1,7 @@
 function weightedRGC_conventinal
 %% load data
 
-pt = readtable('df_20170910.xlsx');
+pt = readtable('df_20170910.xlsx'); %conventional test point
 
 % pt = readtable('df_20170901.xlsx');
 
@@ -10,6 +10,26 @@ pt(357:358,:) = [];
 % writetable(pt, 'df_20170908.csv');
 
 norm = readtable('norm_20170910.xlsx');
+
+%% conventional test point 
+figure; hold on;
+plot(pt.MD10_2, pt.RGC_OCT,'ob')
+plot(pt.MD10_2, pt.RGC_OCT2,'or')
+
+xlabel 'MD10-2'
+ylabel 'RGC OCT'
+
+legend({'360','180'},'Location','northwest')
+set(gca , 'FontSize', 18)
+
+%%
+saveas(gca, fullfile(pwd,'Figure/VsMD10conventinal.png'))
+
+%%
+[R, p ] = corrcoef(pt.MD10_2, pt.RGC_OCT)
+
+[R, p ] = corrcoef(pt.MD10_2, pt.RGC_OCT2)
+
 
 %% add wrgc 360
 MD = pt.MD10_2;
@@ -28,7 +48,7 @@ ylabel 'wrgc 360 degree'
 
 set(gca , 'FontSize', 18)
 %% save figure
-saveas(gca, fullfile(pwd,'Figure/wrgc360VSmd10_2.png'))
+% saveas(gca, fullfile(pwd,'Figure/wrgc360VSmd10_2.png'))
 
 %% add wrgc 180
 MD = pt.MD10_2;
@@ -61,6 +81,8 @@ ylabel 'wrgc'
 legend({'360','180'},'Location','northwest')
 set(gca , 'FontSize', 18)
 
+
+
 %% save figure
 saveas(gca, fullfile(pwd,'Figure/wrgc180VSboth.png'))
 
@@ -71,12 +93,12 @@ saveas(gca, fullfile(pwd,'Figure/wrgc180VSboth.png'))
 
 %% Displaced
 %% add wrgc disp 360
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT;
-% SAPrgc = pt.RGC_disp;
-% 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc_disp_360 = wrgc;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT;
+SAPrgc = pt.RGC_disp;
+
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc_disp_360 = wrgc;
 
 %
 figure; hold on;
@@ -88,12 +110,12 @@ ylabel 'wrgc 360 degree'
 set(gca , 'FontSize', 18)
 
 %% add disp 180
-% MD = pt.MD10_2;
-% OCTrgc = pt.RGC_OCT2;
-% SAPrgc = pt.RGC_disp;
-% 
-% wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
-% pt.wrgc_disp_180 = wrgc;
+MD = pt.MD10_2;
+OCTrgc = pt.RGC_OCT2;
+SAPrgc = pt.RGC_disp;
+
+wrgc = (1 + MD/30) .*OCTrgc + (-MD/30).*SAPrgc;
+pt.wrgc_disp_180 = wrgc;
 
 %
 figure; hold on;
@@ -110,7 +132,7 @@ plot(pt.MD10_2, pt.wrgc_disp_360,'ob')
 plot(pt.MD10_2, pt.wrgc_disp_180,'or')
 
 xlabel 'MD10-2'
-ylabel 'wrgc'
+ylabel 'Displaced wrgc'
 
 legend({'360','180'},'Location','northwest')
 set(gca , 'FontSize', 18)
@@ -118,6 +140,12 @@ set(gca , 'FontSize', 18)
 %% save figure
 
 saveas(gca, fullfile(pwd,'Figure/wrgcDispVSboth.png'))
+
+%%
+[R, p ] = corrcoef(pt.MD10_2, pt.wrgc_disp_360)
+
+[R, p ] = corrcoef(pt.MD10_2, pt.wrgc_disp_180)
+
 
 %% both 360 & 180
 figure; hold on;
@@ -136,5 +164,8 @@ figure; hold on;
 plot(pt.MD10_2, pt.RGC_OCT,'ob')
 plot(pt.MD10_2, pt.RGC_OCT2,'or')
 
+
+
+%%
 plot(pt.MD10_2, pt.wrgc_360,'og')
 plot(pt.MD10_2, pt.wrgc_disp_180,'os')
