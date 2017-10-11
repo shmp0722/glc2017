@@ -13,6 +13,38 @@ HFA = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 4);
 % tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
 tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
+%% Spearman
+
+[R ,P] = corrcoef([HFA,CH]); 
+
+
+SF =  R(1:68,69:80);
+sf = zeros(size(SF));
+
+% for ii = 1:12
+%     sf(:,ii)= SF(:,ii)==max(SF(:,ii));
+% end
+
+for ii = 1:12
+    sf(ii,:)= SF(ii,:)==max(SF(ii,:));
+end
+
+%%
+c= jet(12);
+figure; hold on;
+
+for ii =1 : size(HFA,2)
+    if isempty(find(sf(ii,:),1));
+        plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
+            'MarkerFaceColor','none','MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',12)
+    else
+        plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
+            'MarkerFaceColor',c(find(sf(ii,:)),:),'MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',12)
+    end
+end
+
 %% stepwise
 
 for ii = 1:12
