@@ -65,8 +65,18 @@ LC =Loadings1;
 %         factoran(Sigma,nFact-1,'Xtype','cov','rotate','none');
 % LC = LoadingsCov
 
-%%
-gr = zeros(length(HFA),1)
-for ii =1 : length(HFA)
-gr(ii)= find( LC(ii,:)==max(LC(ii,:))) ;
+%% devide all into groups
+gr = zeros(size(HFA,2),1);
+for ii =1 : size(HFA,2)
+    gr(ii)= find( LC(ii,:)==max(LC(ii,:))) ;
 end
+%%  load 10-2 test point
+% tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
+tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
+
+%% 
+c 
+figure;hold on;
+for ii =1 : size(HFA,2)
+plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's', 'MarkerFaceColor',)
+axis equal
