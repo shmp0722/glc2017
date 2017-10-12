@@ -15,7 +15,7 @@ tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
 %% Spearman
 
-[R ,P] = corrcoef([HFA,CH]); 
+[R ,P] = corrcoef([HFA,CH]);
 
 
 SF =  R(1:68,69:80);
@@ -34,10 +34,10 @@ for ii = 1:68
     pp(ii,:)= p(ii,:)==min(p(ii,:));
 end
 
-%% 
+%%
 c= jet(12);
-figure; 
-% subplot(1,2,1); 
+figure;
+% subplot(1,2,1);
 hold on;
 
 for ii =1 : size(HFA,2)
@@ -57,8 +57,8 @@ names = 1:12;
 names = num2str(names);
 
 
-figure; 
-% subplot(1,2,1); 
+figure;
+% subplot(1,2,1);
 hold on;
 
 for ii =1 : size(HFA,2)
@@ -81,7 +81,7 @@ names = num2str(names);
 
 % % c= jet(12);
 % subplot(1,2,2); hold on;
-% 
+%
 % for ii =1 : size(HFA,2)
 %     if isempty(find(sf(ii,:),1));
 %         plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
@@ -123,7 +123,7 @@ for ii = 1:12
 end
 % set(gca,'YLim', get(gca, 'XLim'))
 % axis equal
-%     
+%
 % end
 % results
 % CH; 1 10 16 29 38 57 62 63 64
@@ -228,7 +228,7 @@ end
 set(gca,'YLim', get(gca, 'XLim'))
 axis equal
 
-%% HFA & CH 
+%% HFA & CH
 % eigen value
 
 % e = eig(corr(HFA));
@@ -280,21 +280,45 @@ axis equal
 title 'Factor analysis by HFA10-2 & CH'
 
 %% export gr hfa & CH
-xlswrite('gr.xlsx', gr(68))
-
-%%
-figure;
-pie(ones(12,1))
-
-% 等間隔ベクトルの作成
-% t = linspace(0,2*pi,100);
-t = linspace(0,pi/6,100); % pi = 180
+Gr = gr(69:end);
+xlswrite('gr.xlsx', Gr)
 
 
-figure
-fill(sin(t),cos(t),c(1,:))
-% plot(cos(t),sin(t))
+%% CH
+angels = [0:30:330 ];
+% angels = angels + 15;
 
-axis([-2,2,-2,2])
+c = jet(max(Gr));
+
+figure; hold on;
+for ii = 1: length(angels)
+    %     figure
+    plot(sin(angels(ii)/180*pi),cos(angels(ii)/180*pi)...
+        , 's', 'MarkerFaceColor',c(Gr(ii),:),...
+        'MarkerEdgeColor', [0 0 0],... %c(gr(ii),:),...
+        'MarkerSize',12)
+end
 axis equal
+axis([-2,2,-2,2])
 
+%% randomforrest
+for ii = 1:  length(CH)
+    Mdl = fitctree(HFA,CH(:,ii))
+    view(Mdl,'mode','graph') % graphic description
+end
+
+%% prediction
+
+Mdl = fitctree(HFA(1:60,:), CH(1:60,ii));
+view(Mdl,'mode','graph') % graphic description
+
+
+figure;hold on;
+plot(CH(61:end,ii),predict(Mdl,HFA(61:end,:)),'o')
+ylabel 'prediction'
+xlabel 'measured'
+title(sprintf('%s' , ii))
+
+xl = get(gca,'XLim');
+ln=  linspace(xl(1),xl(2),100);
+plot(ln ,ln, '--k')
