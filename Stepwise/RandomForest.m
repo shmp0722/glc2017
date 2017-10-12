@@ -3,7 +3,8 @@
 
 CH = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'),3);
 HFA = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 4);
-
+m   = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 2);
+mlabel = readtable(fullfile(pwd,'df_20171002_Turpin.xlsx'),'Sheet',2);
 % 
 addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 
@@ -11,29 +12,21 @@ addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 % tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
 tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
-%% Examples
-load ionosphere % Contains X and Y variables
-Mdl = fitctree(X,Y);
-view(Mdl,'mode','graph') % graphic description
-
-load carsmall % Contains Horsepower, Weight, MPG
-X = [Horsepower Weight];
-Mdl = fitrtree(X,MPG);
-view(Mdl,'mode','graph') % graphic description
+%%
 
 
-load fisheriris % load the sample data
-ctree = fitctree(meas,species); % create classification tree
-view(ctree) % text description
+for ii = 1:12
+    mdl_tr{ii} = fitctree(HFA(1:60,:), CH(1:60, ii)); % training 
+    
+    figure; hold on;
+    plot(CH(61:end,ii), predict( mdl_tr{ii}, HFA(61:end,:)), 'o') % prediction
+    xlabel 'measured'
+    ylabel 'predicted'
+    title(sprintf('%d oclock', ii))
+    
+    lm{ii} =  fitlm(CH(61:end,ii), predict( mdl_tr{ii}, HFA(61:end,:)));
+end
 
-view(ctree,'mode','graph') % graphic description
-
-%% 
-load ionosphere
-CMdl = fitctree(X,Y);
-view(CMdl,'mode','graph') % graphic description
-
-Ynew = predict(CMdl,mean(X))
 
 %%
 load carsmall

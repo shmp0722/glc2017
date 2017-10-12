@@ -4,7 +4,7 @@
 CH  = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'),3);
 HFA = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 4);
 m   = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 2);
-mlabel = readtable(fullfile(pwd,'df_20171002_Turpin.xlsx'),'Sheet',2)
+mlabel = readtable(fullfile(pwd,'df_20171002_Turpin.xlsx'),'Sheet',2);
 %
 addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 
@@ -25,6 +25,8 @@ for ii = 1:12
     
     fitlm(CH(61:end,ii), predict( mdl_tr{ii}, HFA(61:end,:)))
 end
+
+
 
 %%
 load ionosphere
