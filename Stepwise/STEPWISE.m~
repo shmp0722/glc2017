@@ -17,18 +17,94 @@ tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
 [R ,P] = corrcoef([HFA,CH]); 
 
-sf = zeros(size(R));
 
 SF =  R(1:68,69:80);
-for ii = 1:12
-sf(ii,:)= SF(:,ii)==max(SF(:,1));
-%% stepwise
+sf = zeros(size(SF));
+pp = zeros(size(SF));
 
+
+p = P(1:68,69:80);
+
+% for ii = 1:12
+%     sf(:,ii)= SF(:,ii)==max(SF(:,ii));
+% end
+
+for ii = 1:68
+    sf(ii,:)= SF(ii,:)==max(SF(ii,:));
+    pp(ii,:)= p(ii,:)==min(p(ii,:));
+end
+
+%% 
+c= jet(12);
+figure; 
+% subplot(1,2,1); 
+hold on;
+
+for ii =1 : size(HFA,2)
+    if isempty(find(sf(ii,:),1));
+        plot(tp.x(ii), tp.y(ii), 's',...
+            'MarkerFaceColor','none','MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',20)
+    else
+        plot(tp.x(ii), tp.y(ii), 's',...
+            'MarkerFaceColor',c(find(sf(ii,:),1),:),'MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',20)
+        text(tp.x(ii), tp.y(ii),num2str(find(sf(ii,:),1)))
+    end
+end
+axis equal
+names = 1:12;
+names = num2str(names);
+
+
+figure; 
+% subplot(1,2,1); 
+hold on;
+
+for ii =1 : size(HFA,2)
+    if isempty(find(sf(ii,:),1));
+        plot(tp.x(ii), tp.y(ii), 's',...
+            'MarkerFaceColor','none','MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',20)
+    else
+        plot(tp.x(ii), tp.y(ii), 's',...
+            'MarkerFaceColor',c(find(sf(ii,:),1),:),'MarkerEdgeColor',[0 0 0],...
+            'MarkerSize',20)
+        text(tp.x(ii), tp.y(ii), num2str(P(ii,find(pp(ii,:),1))))
+    end
+end
+axis equal
+names = 1:12;
+names = num2str(names);
+
+% legend(names)
+
+% % c= jet(12);
+% subplot(1,2,2); hold on;
+% 
+% for ii =1 : size(HFA,2)
+%     if isempty(find(sf(ii,:),1));
+%         plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
+%             'MarkerFaceColor','none','MarkerEdgeColor',[0 0 0],...
+%             'MarkerSize',20)
+%     else
+%         plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
+%             'MarkerFaceColor',c(find(sf(ii,:),1),:),'MarkerEdgeColor',[0 0 0],...
+%             'MarkerSize',20)
+%         text(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii),num2str(find(sf(ii,:),1)))
+%     end
+% end
+% axis equal
+
+
+%% stepwise
+figure;
 for ii = 1:12
     [b,se,pval,inmodel,stats,nextstep,history] = stepwisefit(HFA,CH(:, ii),...
         'penter',0.05,'premove',0.10);
     
-    figure;hold on;
+    subplot(3,4,ii);
+    hold on;
     for jj =1 : size(HFA,2)
         if inmodel(jj)==1
             plot(tp.x(jj), tp.y(jj), 's',...
@@ -117,6 +193,7 @@ for ii =1 : size(HFA,2)
 end
 set(gca,'YLim', get(gca, 'XLim'))
 axis equal
+title 'Factor analysis by HFA10-2 test point'
 
 figure;hold on;
 for ii =1 : size(HFA,2)
@@ -126,6 +203,7 @@ for ii =1 : size(HFA,2)
 end
 set(gca,'YLim', get(gca, 'XLim'))
 axis equal
+title 'Factor analysis by HFA10-2 test point'
 
 %%
 c = jet(max(gr));
@@ -176,7 +254,8 @@ end
 
 %%
 c = jet(max(gr));
-figure;subplot(1,2,1)
+figure;
+% subplot(1,2,1)
 hold on;
 for ii =1 : size(HFA,2)
     plot(tp.turpin_disp_x(ii), tp.turpin_disp_y(ii), 's',...
@@ -185,6 +264,37 @@ for ii =1 : size(HFA,2)
 end
 set(gca,'YLim', get(gca, 'XLim'))
 axis equal
+title 'Factor analysis by HFA10-2 & CH'
 
-figure;subplot(1,2,2)
+
+figure;
+% subplot(1,2,2)
 hold on;
+for ii =1 : size(HFA,2)
+    plot(tp.x(ii), tp.y(ii), 's',...
+        'MarkerFaceColor',c(gr(ii),:),'MarkerEdgeColor', [0 0 0],... %c(gr(ii),:),...
+        'MarkerSize',12)
+end
+set(gca,'YLim', get(gca, 'XLim'))
+axis equal
+title 'Factor analysis by HFA10-2 & CH'
+
+%% export gr hfa & CH
+xlswrite('gr.xlsx', gr(68))
+
+%%
+figure;
+pie(ones(12,1))
+
+% 等間隔ベクトルの作成
+% t = linspace(0,2*pi,100);
+t = linspace(0,pi/6,100); % pi = 180
+
+
+figure
+fill(sin(t),cos(t),c(1,:))
+% plot(cos(t),sin(t))
+
+axis([-2,2,-2,2])
+axis equal
+
