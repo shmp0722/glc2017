@@ -8,6 +8,10 @@ function STEPWISE
 
 CH = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'),3);
 HFA = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 4);
+m   = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'), 2);
+mlabel = readtable(fullfile(pwd,'df_20171002_Turpin.xlsx'),'Sheet',2);
+% 
+addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 
 %%  load 10-2 test point
 % tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
@@ -17,11 +21,9 @@ tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
 [R ,P] = corrcoef([HFA,CH]);
 
-
 SF =  R(1:68,69:80);
 sf = zeros(size(SF));
 pp = zeros(size(SF));
-
 
 p = P(1:68,69:80);
 
@@ -281,14 +283,14 @@ title 'Factor analysis by HFA10-2 & CH'
 
 %% export gr hfa & CH
 Gr = gr(69:end);
-xlswrite('gr.xlsx', Gr)
+% xlswrite('gr.xlsx', Gr)
 
 
 %% CH
 angels = [0:30:330 ];
 % angels = angels + 15;
 
-c = jet(max(Gr));
+% c = jet(max(Gr));
 
 figure; hold on;
 for ii = 1: length(angels)
@@ -301,26 +303,3 @@ end
 axis equal
 axis([-2,2,-2,2])
 
-%% randomforrest
-for ii = 1:  length(CH)
-    Mdl = fitctree(HFA,CH(:,ii))
-    view(Mdl,'mode','graph') % graphic description
-end
-
-%% prediction
-for 
-Mdl = fitctree(HFA(1:60,:), CH(1:60,ii));
-view(Mdl,'mode','graph') % graphic description
-
-
-figure;
-subplot(8,9,ii);
-hold on;
-plot(CH(61:end,ii),predict(Mdl,HFA(61:end,:)),'o')
-ylabel 'prediction'
-xlabel 'measured'
-title(sprintf('test point %s' , num2str(ii)))
-
-xl = get(gca,'XLim');
-ln=  linspace(xl(1),xl(2),100);
-plot(ln ,ln, '--k')

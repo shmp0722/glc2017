@@ -12,7 +12,7 @@ addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 % tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
 tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
-%% Examples
+%% RM prediction
 
 for ii = 1:12
     mdl_tr{ii} = fitctree(HFA(1:60,:), CH(1:60, ii)); % training 

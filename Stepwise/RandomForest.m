@@ -23,8 +23,40 @@ for ii = 1:12
     xlabel 'measured'
     ylabel 'predicted'
     title(sprintf('%d oclock', ii))
+    lsline
     
     lm{ii} =  fitlm(CH(61:end,ii), predict( mdl_tr{ii}, HFA(61:end,:)));
+end
+
+
+%%
+for ii = 1:12
+    lm{ii}.Rsquared
+end
+
+
+%% macular parameters vs CH
+% mdl = fitctree(m, CH)
+
+
+for ii = 1:12
+%     mdl_tr{ii} = fitctree(HFA(1:60,:), CH(1:60, ii)); % training 
+    mmdl_tr{ii} = fitctree(m(1:60,:), CH(1:60, ii));
+
+%
+    figure; hold on;
+    plot(CH(61:end, ii), predict(mmdl_tr{ii}, m(61:end,:)), 'o') % prediction
+    xlabel 'measured'
+    ylabel 'predicted'
+    title(sprintf('%d oclock', ii))
+    lsline
+    
+    lm{ii} =  fitlm(CH(61:end,ii), predict( mmdl_tr{ii}, m(61:end,:)));
+    
+    y_pos = get(gca, 'YLim');
+    x_pos = get(gca, 'XLim');
+
+    text(x_pos(1)+10, y_pos(2)-10, sprintf('R squared = %d', lm{ii}.Rsquared.Adjusted))
 end
 
 
