@@ -1,4 +1,6 @@
 %% load data
+cd /Users/shumpei/GoogleDrive/CSFI/glc2017/Stepwise;
+
 [theMessage, description, format] = xlsfinfo(fullfile(pwd,'df_20171002_Turpin.xlsx'));
 
 CH = xlsread(fullfile(pwd,'df_20171002_Turpin.xlsx'),3);
@@ -12,9 +14,7 @@ addpath(genpath(fullfile(pwd,'Stochastic_Bosque')));
 % tp = xlsread(fullfile(pwd, '10-2testpoint.xlsx'));
 tp = readtable(fullfile(pwd, '10-2testpoint.xlsx'));
 
-%%
-
-
+%% randam forrest
 for ii = 1:12
     mdl_tr{ii} = fitctree(HFA(1:60,:), CH(1:60, ii)); % training 
     
@@ -29,11 +29,10 @@ for ii = 1:12
 end
 
 
-%%
+%% check the prediction accuracy
 for ii = 1:12
     lm{ii}.Rsquared
 end
-
 
 %% macular parameters vs CH
 % mdl = fitctree(m, CH)

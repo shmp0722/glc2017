@@ -1,4 +1,4 @@
-function PlotRGC_20170910
+function PlotRGC_20170910(Save)
 
 %% load data
 
@@ -11,6 +11,11 @@ pt(357:358,:) = [];
 % writetable(pt, 'df_20170908.csv');
 
 norm = readtable('norm_20170910.xlsx');
+
+%% save figure?
+if notDefined('save')
+    Save = false;
+end
 
 %% conventional
 figure; hold on;
@@ -33,8 +38,10 @@ l = legend({'360','180'},'Location','northwest');
 plot([0:1280000], [0:1280000],'--k' )
 
 %% save  the fig
-saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1.png'))
-% saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1_withNorm.png'))
+if Save
+    saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1.png'))
+    % saveas(gca, fullfile(pwd,'/Figure/RGC_HFA9vsOCT1_withNorm.png'))
+end
 
 %% Displaced
 figure; hold on;
@@ -58,10 +65,10 @@ plot([0:1280000], [0:1280000],'--k' )
 
 
 %% save as figure.png
-% saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
-saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2.png'))
-
-
+if Save
+    % saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2_wNorm.png'))
+    saveas(gca, fullfile(pwd,'/Figure','RGC_dispvsOCT2.png'))
+end
 %% boxplot
 % patients
 figure; hold on;
@@ -70,14 +77,15 @@ title('Conventional vs Displaced test point')
 ylabel('RGC count')
 xlabel('Test point')
 set(gca, 'FontSize',18)
-% 
+%
 mean(pt.RGC_OCT)
 std(pt.RGC_OCT)
 
 
 %% save plot
-saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
-
+if Save
+    saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
+end
 
 %% Norms
 figure; hold on;
@@ -92,7 +100,7 @@ xlabel('Normal subjects')
 
 %% degree of cpRNFL
 % conventional tesdt point plots
-clear p 
+clear p
 
 figure; hold on;
 for ii = 1: 360
@@ -108,8 +116,9 @@ ylabel('slope r')
 legend('conventional')
 
 %%
-saveas(gca, fullfile(pwd,'/Figure', 'RGC_HFA9_cpRNFLT_slope.png'))
-
+if Save
+    saveas(gca, fullfile(pwd,'/Figure', 'RGC_HFA9_cpRNFLT_slope.png'))
+end
 %% conventinal
 c = jet(360);
 
@@ -130,8 +139,9 @@ legend({'90','180','270', '360'},'Location','northwest')
 title('Conventional test point')
 
 %%
-saveas(gcf, 'Conventional_test_point.png')
-
+if Save
+    saveas(gcf, 'Conventional_test_point.png')
+end
 %% Displaced
 % plots
 figure; hold on;
@@ -140,7 +150,7 @@ for ii = 1: 360
     [p{ii}, S{ii}] = polyfit(pt.RGC_disp, pt.RGC_OCT*ii/360, 1);
     plot(ii,p{ii}(1),'ob')
     slope(ii) = p{ii}(1);
-
+    
 end
 set(gca,'XLim',[0,360],'XTick',[0,360],'FontSize',18)
 % set(gca,'YLim',[0,1],'YTick',[0,1],'FontSize',18)
@@ -165,8 +175,9 @@ plot([find(slope==sl),find(slope==sl)],[0,1],'-r')
 set(gca,'FontSize', 18, 'XTick',[0, find(slope==sl), 360])
 
 %%
-saveas(gca, fullfile(pwd,'/Figure','Disp_cpRNFLT_slope.png'))
-
+if Save
+    saveas(gca, fullfile(pwd,'/Figure','Disp_cpRNFLT_slope.png'))
+end
 %% displaced boxplot
 % patients
 figure; hold on;
@@ -175,14 +186,14 @@ title('Conventional vs Displaced test point')
 ylabel('RGC count')
 xlabel('Test point')
 set(gca, 'FontSize',18)
-% 
+%
 mean(pt.RGC_OCT)
 std(pt.RGC_OCT)
 
-
 %% save plot
-saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
-
+if Save
+    saveas(gca, fullfile(pwd,'/Figure','Boxplot_convVsdisp.png'))
+end
 %% Displaced
 c = jet(360);
 
@@ -206,8 +217,9 @@ set(gca,'YLim',[0,ylim(2)])
 plot([0, ylim(2)], [0, ylim(2)],'-')
 
 %%
-saveas(gca, fullfile(pwd,'/Figure', 'Disp_test_point.png'))
-
+if Save
+    saveas(gca, fullfile(pwd,'/Figure', 'Disp_test_point.png'))
+end
 
 %% Displaced and clock hour
 figure; hold on;
@@ -254,8 +266,9 @@ set(gca,'YLim',[0,ylim(2)])
 
 % plot([0, ylim(2)], [0, ylim(2)],'-')
 %%
-saveas(gca, 'Disp_test_point&angle.png')
-
+if Save
+    saveas(gca, 'Disp_test_point&angle.png')
+end
 %%
 
 [p{1}, S{1}] = polyfit(pt.RGC_disp, pt.RGC_CH7 + pt.RGC_CH8 + pt.RGC_CH9...
@@ -295,11 +308,12 @@ ylabel('slope')
 set(gca, 'FontSize',18)
 % plot([213,213],[0,2],'-r')
 %%
-saveas(gca, 'Disp_test_point&CH.png')
-
-%%%%%%%%%%%%%%% 
-%% norm
-%%%%%%%%%%%%%%%
+if Save
+    saveas(gca, 'Disp_test_point&CH.png')
+end
+%%%%%%%%%%%%%%%%%%%%%%
+%% normal subject only
+%%%%%%%%%%%%%%%%%%%%%%
 figure; hold on;
 % plot(pt.RGC_HFA9, pt.RGC_OCT,'ob','MarkerFaceColor','b')
 % plot(pt.RGC_HFA9, pt.RGC_OCT2,'or','MarkerFaceColor','r')
@@ -322,8 +336,9 @@ set(gca,'XLim',[0,xlim(2)],'XTick',ytick)
 set(gca,'YLim',[0,xlim(2)],'XTick',ytick)
 
 %% save  the fig
-saveas(gca, 'NORM_RGC_HFA9vsOCT1.png')
-
+if Save
+    saveas(gca, 'NORM_RGC_HFA9vsOCT1.png')
+end
 %% conventional tesdt point plots
 figure; hold on;
 for ii = 1: 360
@@ -338,8 +353,9 @@ ylabel('slope')
 legend('conventional')
 
 %%
-saveas(gca, 'Norm_RGC_HFA9_cpRNFLT_slope.png')
-
+if Save
+    saveas(gca, 'Norm_RGC_HFA9_cpRNFLT_slope.png')
+end
 
 %% Displaced
 figure; hold on;
